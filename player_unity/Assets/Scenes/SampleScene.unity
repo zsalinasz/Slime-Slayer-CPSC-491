@@ -3015,7 +3015,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.14232036, y: -0.011539996, z: -10}
+  m_LocalPosition: {x: 0.41, y: -0.14, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4061,6 +4061,7 @@ GameObject:
   - component: {fileID: 1287035335}
   - component: {fileID: 1287035339}
   - component: {fileID: 1287035338}
+  - component: {fileID: 1287035340}
   m_Layer: 0
   m_Name: Beast_0
   m_TagString: Untagged
@@ -4163,7 +4164,7 @@ SpriteRenderer:
   m_SortingLayer: 4
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -5479620187238129941, guid: ad4323013e265db1ea925cd56b71b2f0, type: 3}
+  m_Sprite: {fileID: 1842926534897299343, guid: d16cf10c3d17cfea185ddc73a451b29f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4229,6 +4230,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageOnContact
   damage: 1
+--- !u!114 &1287035340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287035334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b7fdaf7eaad094739fe9adcbde64af5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAIController
+  player: {fileID: 0}
+  detectionRange: 5
+  attackRange: 0.5
+  moveSpeed: 2
+  moveDistance: 5
+  currentState: 0
 --- !u!1 &1469492063
 GameObject:
   m_ObjectHideFlags: 0
@@ -4855,47 +4874,47 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: e5dd01a5-818f-4126-b79c-0695c1598de4
-    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+    m_ActionName: 'Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: c2e581f1-e1f9-4856-9d98-50d7e8e0b933
-    m_ActionName: Player/Look[/Mouse/delta]
+    m_ActionName: 'Player/Look[/Mouse/delta]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 0ce2ae9d-4b04-478b-b915-a9e77617278b
-    m_ActionName: Player/Fire[/Mouse/leftButton]
+    m_ActionName: 'Player/Fire[/Mouse/leftButton]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 5147d0e6-ae45-4da5-8b8c-5d677daa47aa
-    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+    m_ActionName: 'UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: a000229a-fce1-49b0-9f7e-7e903628932d
-    m_ActionName: UI/Submit[/Keyboard/enter]
+    m_ActionName: 'UI/Submit[/Keyboard/enter]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 041ca51e-d874-4a46-b550-f3a9ff0bcaab
-    m_ActionName: UI/Cancel[/Keyboard/escape]
+    m_ActionName: 'UI/Cancel[/Keyboard/escape]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 0fc885f2-a72c-44be-a735-76f2943b6108
-    m_ActionName: UI/Point[/Mouse/position]
+    m_ActionName: 'UI/Point[/Mouse/position]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 5c67637b-96c4-4c77-bdb8-1a9e711b5da1
-    m_ActionName: UI/Click[/Mouse/leftButton]
+    m_ActionName: 'UI/Click[/Mouse/leftButton]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 1a555ea6-4f16-4df8-b9a3-3bf13636723c
-    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
+    m_ActionName: 'UI/ScrollWheel[/Mouse/scroll]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 97e0fa08-3277-413c-b160-71b429704fe9
-    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
+    m_ActionName: 'UI/MiddleClick[/Mouse/middleButton]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: c1a75a6a-d2b3-4c53-b020-b99ce3c0ee75
-    m_ActionName: UI/RightClick[/Mouse/rightButton]
+    m_ActionName: 'UI/RightClick[/Mouse/rightButton]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: ce936c60-7327-48ae-8567-1aecbc97473d
@@ -5094,6 +5113,8 @@ MonoBehaviour:
   maxHealth: 3
   invincibilityTime: 1
   flashInterval: 0.1
+  knockbackSpeed: 3
+  knockbackDuration: 0.15
   respawnDelay: 2
   respawnPoint: {fileID: 0}
   disableWhileDead:
