@@ -1,0 +1,1 @@
+Hello. This is just a test for the CI/CD pipeline. We want github actions to do a unity project build before merging onto main in order to check that the prospective change is valid before allowing it.
