@@ -37,7 +37,6 @@ jobs:
         with:
           projectPath: player_unity
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          coverageEnabled: false
 
       - name: Check repository status after tests
         run: git status --short
