@@ -49,7 +49,7 @@ jobs:
           path: artifacts
 
       - name: Clean test artifacts
-        run: rm -rf artifacts
+        run: sudo rm -rf artifacts
 
       - name: Check repository status after cleanup
         run: git status --short
