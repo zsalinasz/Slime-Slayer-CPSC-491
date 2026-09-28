@@ -75,6 +75,7 @@ jobs:
           projectPath: player_unity
           unityVersion: 6000.6.0f1
           targetPlatform: StandaloneLinux64
+          buildName: SlimeSlayer
           versioning: Custom
           version: ${{ env.BUILD_VERSION }}
 
