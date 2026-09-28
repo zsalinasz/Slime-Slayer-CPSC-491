@@ -54,6 +54,17 @@ jobs:
       - name: Check repository status after cleanup
         run: git status --short
 
+      - name: Read Unity project version
+        run: |
+          GAME_VERSION=$(grep "bundleVersion:" player_unity/ProjectSettings/ProjectSettings.asset | head -1 | awk '{print $2}')
+          echo "GAME_VERSION=$GAME_VERSION" >> "$GITHUB_ENV"
+          echo "BUILD_VERSION=${GAME_VERSION}-build.${{ github.run_number }}" >> "$GITHUB_ENV"
+
+      - name: Display build version
+        run: |
+          echo "Unity project version: $GAME_VERSION"
+          echo "CI build version: $BUILD_VERSION"
+
       - name: Build Unity project
         uses: game-ci/unity-builder@v4
         env:
@@ -64,3 +75,10 @@ jobs:
           projectPath: player_unity
           unityVersion: 6000.6.0f1
           targetPlatform: StandaloneLinux64
+          versioning: Custom
+          version: ${{ env.BUILD_VERSION }}
+
+      - name: Upload Linux build
+        uses: actions/upload-artifact@v4
+        with:
+          name: SlimeSlayer-${{ env.BUILD_VERSION }}-Linux
