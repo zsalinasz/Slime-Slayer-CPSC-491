@@ -19,6 +19,7 @@ public class PlayerHealthTests
         player = new GameObject("Player");
 
         rb = player.AddComponent<Rigidbody2D>();
+        rb.gravityScale = 0f;
 
         GameObject spriteObject = new GameObject("Sprite");
         spriteObject.transform.SetParent(player.transform);
