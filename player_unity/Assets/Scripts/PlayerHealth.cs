@@ -22,9 +22,9 @@ public class PlayerHealth : MonoBehaviour
 	[Tooltip("Movement/input scripts to turn off whole dead")]
 	[SerializeField] private Behaviour[] disableWhileDead;
 	
-	public UnityEvent<int, int> OnHealthChanged;
-	public UnityEvent OnDied;
-	public UnityEvent OnRespawned;
+	public UnityEvent<int, int> OnHealthChanged = new UnityEvent<int, int>();
+	public UnityEvent OnDied = new UnityEvent();
+	public UnityEvent OnRespawned = new UnityEvent();
 	
 	private int currentHealth;
 	private bool isInvincible;
