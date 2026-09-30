@@ -1,0 +1,88 @@
+name: Unity CI
+
+on:
+  workflow_dispatch:
+
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  build:
+    name: Build Unity Project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: player_unity/Library
+          key: Library-${{ hashFiles('player_unity/Assets/**', 'player_unity/Packages/**', 'player_unity/ProjectSettings/**') }}
+          restore-keys: |
+            Library-
+
+      - name: Run Unity tests
+        uses: game-ci/unity-test-runner@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: player_unity
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check repository status after tests
+        run: git status --short
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Unity-Test-Results
+          path: artifacts
+
+      - name: Clean test artifacts
+        run: sudo rm -rf artifacts
+
+      - name: Check repository status after cleanup
+        run: git status --short
+
+      - name: Read Unity project version
+        run: |
+          GAME_VERSION=$(grep "bundleVersion:" player_unity/ProjectSettings/ProjectSettings.asset | head -1 | awk '{print $2}')
+          echo "GAME_VERSION=$GAME_VERSION" >> "$GITHUB_ENV"
+          echo "BUILD_VERSION=${GAME_VERSION}-build.${{ github.run_number }}" >> "$GITHUB_ENV"
+
+      - name: Display build version
+        run: |
+          echo "Unity project version: $GAME_VERSION"
+          echo "CI build version: $BUILD_VERSION"
+
+      - name: Build Unity project
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: player_unity
+          unityVersion: 6000.6.0f1
+          targetPlatform: StandaloneLinux64
+          buildName: SlimeSlayer
+          versioning: Custom
+          version: ${{ env.BUILD_VERSION }}
+
+      - name: Upload Linux build
+        uses: actions/upload-artifact@v4
+        with:
+          name: SlimeSlayer-${{ env.BUILD_VERSION }}-Linux
+          path: build/

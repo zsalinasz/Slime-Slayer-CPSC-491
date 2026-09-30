@@ -30,14 +30,36 @@ public class EnemyAIController : MonoBehaviour
     {
         startPosition = transform.position;
 	spriteRenderer = GetComponent<SpriteRenderer>();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+	if (player == null)
+	        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     private void Update()
     {
         UpdateColor();
 
-	float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+	float distanceToPlayer = calcDistanceToPlayer(player); 
+	EvaluateState(distanceToPlayer);
+	HandleCurrentState();
+    }
+
+    public AIState getCurrentState()
+    {
+        return currentState;
+    }
+    public void setPlayerTransform(Transform playerTransform)
+    {
+        player = playerTransform;
+    }
+
+    public float calcDistanceToPlayer(Transform playerTransform)
+    {
+        return Vector2.Distance(transform.position, playerTransform.position);
+    }
+
+    public void EvaluateState(float distanceToPlayer)
+    {
+        
 	if (distanceToPlayer < detectionRange)
 	{
 	    currentState = AIState.Chase;
@@ -50,7 +72,11 @@ public class EnemyAIController : MonoBehaviour
 	{
 	    currentState = AIState.Idle;
 	}
+    }
 
+    public void HandleCurrentState()
+    {
+         
 	switch (currentState)
 	{
 	    case AIState.Idle:
@@ -79,8 +105,7 @@ public class EnemyAIController : MonoBehaviour
 	}
     }
 
-
-private void HandleIdle()
+    private void HandleIdle()
     {
         MoveBackAndForth();
     }
