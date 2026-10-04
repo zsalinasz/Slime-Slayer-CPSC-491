@@ -9,6 +9,7 @@ public class InGameMenuController : MonoBehaviour
 
     private GameObject playerObject; 
     private PlayerInput playerController;
+    private PlayerData playerData;
 
     private bool isPaused = false;
     private bool sign_shown = false;
@@ -17,13 +18,21 @@ public class InGameMenuController : MonoBehaviour
     {
 	playerObject = GameObject.FindGameObjectWithTag("Player");
 	if (playerObject != null)
+	{
  	    playerController = playerObject.GetComponent<PlayerInput>();
+	}
+	if (PlayerDataManager.Instance == null)
+	{
+            Debug.LogError("PlayerDataManager does not exist.");
+	}
+	else
+	    playerData = PlayerDataManager.Instance.Data;
 
 	InGameMenuUI ui = pauseMenuUI.GetComponent<InGameMenuUI>();
 
 	ui.btn_resume.onClick.AddListener(Resume);
 	ui.btn_inventory.onClick.AddListener(UnderConstruction);
-	ui.btn_stats.onClick.AddListener(UnderConstruction);
+	ui.btn_stats.onClick.AddListener(OnButtonStats);
 	ui.btn_settings.onClick.AddListener(UnderConstruction);
 	ui.btn_save_exit.onClick.AddListener(UnderConstruction);
         pauseMenuUI.SetActive(false);
@@ -75,6 +84,24 @@ public class InGameMenuController : MonoBehaviour
 	    img_under_construction.SetActive(true);
 	}
 	sign_shown = !sign_shown;
+    }
+    public void OnButtonStats()
+    {
+        
+	Debug.Log(@$"Name: {playerData.playerName}
+        Level: {playerData.level}
+        Experience: {playerData.experience}
+        Current Health: {playerData.currentHealth}
+        Max Health: {playerData.maxHealth}
+        Current Stamina: {playerData.currentStamina}
+        Max Stamina: {playerData.maxStamina}
+        Strength: {playerData.strength}
+        Perception: {playerData.perception}
+        Agility: {playerData.agility}
+        Endurance: {playerData.endurance}
+        Currency: {playerData.currency}");
+
+	UnderConstruction();
     }
 
 
