@@ -296,6 +296,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 382216023100083201, guid: bbadbc9adb11537bf84ce12d6d2374fc, type: 3}
+      propertyPath: pauseBackGround
+      value: 
+      objectReference: {fileID: 868522804}
     - target: {fileID: 458103016178270667, guid: bbadbc9adb11537bf84ce12d6d2374fc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -457,6 +461,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bbadbc9adb11537bf84ce12d6d2374fc, type: 3}
+--- !u!1 &868522804 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3564848585216999953, guid: bbadbc9adb11537bf84ce12d6d2374fc, type: 3}
+  m_PrefabInstance: {fileID: 868522803}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &912188954
 GameObject:
   m_ObjectHideFlags: 0
