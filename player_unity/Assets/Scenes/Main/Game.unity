@@ -308,8 +308,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-<<<<<<< HEAD
-=======
     - target: {fileID: 2983882475247335, guid: bbadbc9adb11537bf84ce12d6d2374fc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -350,7 +348,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
->>>>>>> origin/main
     - target: {fileID: 1959495742160160618, guid: bbadbc9adb11537bf84ce12d6d2374fc, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -431,8 +428,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-<<<<<<< HEAD
-=======
     - target: {fileID: 2833099579168447682, guid: bbadbc9adb11537bf84ce12d6d2374fc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -465,13 +460,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
->>>>>>> origin/main
     - target: {fileID: 5711079120424669280, guid: bbadbc9adb11537bf84ce12d6d2374fc, type: 3}
       propertyPath: m_Name
       value: canvas_igm Variant
       objectReference: {fileID: 0}
-<<<<<<< HEAD
-=======
     - target: {fileID: 6294608749070502139, guid: bbadbc9adb11537bf84ce12d6d2374fc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -488,7 +480,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
->>>>>>> origin/main
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4262,11 +4253,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-<<<<<<< HEAD
-  m_LocalPosition: {x: 2.9587755, y: -0.14, z: -10}
-=======
   m_LocalPosition: {x: 0.41, y: -0.14, z: -10}
->>>>>>> origin/main
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
