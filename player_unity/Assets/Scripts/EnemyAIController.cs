@@ -26,12 +26,26 @@ public class EnemyAIController : MonoBehaviour
     private Vector3 startPosition;
     private int direction = 1;
 
+    //Use before referencing the manager to ensure no run-time errors.
+    bool hasManagerInstance = false;
+    //A simple predicate to guide state transitions.
+    public bool tookHit = false;
+    int knockBackTicks = 0;
+
     private void Start()
     {
         startPosition = transform.position;
 	spriteRenderer = GetComponent<SpriteRenderer>();
 	if (player == null)
 	        player = GameObject.FindGameObjectWithTag("Player").transform;
+	if (EnemyManager.Instance == null)
+	{
+            Debug.LogError("EnemyManager doesn't exist.");
+	}
+	else
+	{
+	    hasManagerInstance = true;
+	}
     }
 
     private void Update()
@@ -60,6 +74,13 @@ public class EnemyAIController : MonoBehaviour
     public void EvaluateState(float distanceToPlayer)
     {
         
+        if (tookHit)
+	{
+	    currentState = AIState.HitReaction;
+	    //Return before evaluating the rest because taking a hit supercedes other concerns.
+	    return;
+	}
+
 	if (distanceToPlayer < detectionRange)
 	{
 	    currentState = AIState.Chase;
@@ -124,7 +145,19 @@ public class EnemyAIController : MonoBehaviour
     }
 
     private void HandleHitReaction()
-    {
+    {	
+	Vector2 vecDirection = -1*(player.position - transform.position).normalized;
+
+        transform.position += (Vector3)(vecDirection * 3*moveSpeed * Time.deltaTime);
+	if (knockBackTicks < 5)
+	{
+	    knockBackTicks++;
+	}
+	else
+	{
+            knockBackTicks = 0;
+	    tookHit = false;
+	}
     }
 
     private void HandleDead()
