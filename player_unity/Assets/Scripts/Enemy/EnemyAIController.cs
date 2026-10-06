@@ -1,9 +1,11 @@
 using UnityEngine;
+using System;
 
 public enum AIState
 {
     Idle,
     Chase,
+    Engage,
     Attack,
     Recovery,
     HitReaction,
@@ -31,6 +33,9 @@ public class EnemyAIController : MonoBehaviour
     //A simple predicate to guide state transitions.
     public bool tookHit = false;
     int knockBackTicks = 0;
+
+    public bool beginEngage = false;
+    int engagementTicks = 0;
 
     private void Start()
     {
@@ -83,7 +88,40 @@ public class EnemyAIController : MonoBehaviour
 
 	if (distanceToPlayer < detectionRange)
 	{
-	    currentState = AIState.Chase;
+	    //currentState = AIState.Chase;
+	    
+	    //The enemy detects the player.
+	    //First, we find out if it is not currently chasing(aka charging) the player and hasn't started engagement yet.
+	    if (!beginEngage && currentState != AIState.Chase)
+	    {
+		//If so, we begin engagement and note that with a flag.
+		beginEngage = true;
+		currentState = AIState.Engage;
+	    }
+	    else if (currentState != AIState.Chase)
+	    {
+		//If it has begun engagement, we check using engagementTicks whether it should still be in engagement mode. Here the enemy will be in engagement for 100 ticks.
+		if (engagementTicks < 100)
+		{
+		    //If enemy is still engaged, maintain currentState in AIState.Engage
+	            currentState = AIState.Engage;
+		    engagementTicks++;
+		}
+		else
+		{
+		    //If the enemy has completed engagement, reset the engagement state variables and set the AI state to chase.
+	            engagementTicks = 0;
+		    beginEngage = false;
+		    currentState = AIState.Chase;
+		}
+	    }
+	    else if (currentState == AIState.Chase)
+	    {
+		//If the AI is in chase mode, let the states handler process the action. No state variables need to be adjusted here at this time.
+	    }
+
+
+
 	    if (distanceToPlayer < attackRange)
 	    {
 	        currentState = AIState.Attack;
@@ -106,6 +144,9 @@ public class EnemyAIController : MonoBehaviour
 
 	    case AIState.Chase:
 		    HandleChase();
+		    break;
+	    case AIState.Engage:
+		    HandleEngage();
 		    break;
 
 	    case AIState.Attack:
@@ -134,6 +175,24 @@ public class EnemyAIController : MonoBehaviour
     private void HandleChase()
     {
         MoveTowardPlayer();
+    }
+
+    private void HandleEngage()
+    {
+	//
+	float engagementDistance = 3.0f;
+	float dampener = 16.0f;
+	double x = player.position.x + engagementDistance * Math.Sin(engagementTicks / dampener);
+	double y = player.position.y + engagementDistance * Math.Cos(engagementTicks / dampener);
+
+        Vector3 diff = transform.position;
+	diff.x -= (float)x;
+	diff.y -= (float)y;
+
+	transform.position -= diff;
+
+
+
     }
 
     private void HandleAttack()
@@ -193,6 +252,15 @@ public class EnemyAIController : MonoBehaviour
 
         transform.position += (Vector3)(vecDirection * moveSpeed * Time.deltaTime);
 
+    }
+
+    private void MoveAwayFromPlayer()
+    {
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+	Vector2 vecDirection = (player.position - transform.position).normalized;
+
+        transform.position += (Vector3)(vecDirection * -1 * moveSpeed * Time.deltaTime);
+	
     }
 
 
