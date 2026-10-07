@@ -11,17 +11,34 @@ public class PlayerCombat : MonoBehaviour
     
     private bool isAttacking;
     private Collider2D hitboxCollider;
+    private PlayerHealth playerHealth;
+    
+    public bool IsAttacking => isAttacking;
     
     private void Awake()
     {
     	hitboxCollider = swordHitbox.GetComponent<Collider2D>();
     	hitboxCollider.enabled = false;
+    	
+    	playerHealth = GetComponent<PlayerHealth>();
     }
     
     private void Update()
     {
-    	if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame && !isAttacking)
-    		StartCoroutine(Attack());
+    	if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+    		TryAttack();
+    }
+    
+    public bool TryAttack()
+    {
+    	if (isAttacking)
+    		return false;
+    		
+    	if (playerHealth != null && playerHealth.IsDead)
+    		return false;
+    		
+    	StartCoroutine(Attack());
+    	return true;
     }
     
     private IEnumerator Attack()
@@ -32,6 +49,8 @@ public class PlayerCombat : MonoBehaviour
     	
     	swordHitbox.ResetSwing();
     	hitboxCollider.enabled = true;
+    	
+    	swordHitbox.PlaySwingEffect();
     	
     	yield return new WaitForSeconds(attackDuration);
     	
