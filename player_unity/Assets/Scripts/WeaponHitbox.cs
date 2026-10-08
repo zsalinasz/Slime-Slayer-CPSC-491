@@ -10,6 +10,8 @@ public class WeaponHitbox : MonoBehaviour
     [SerializeField] private float hitEffectLifetime = 0.15f;
     [SerializeField] private string hitEffectSortingLayer = "Player";
     
+    public int Damage => damage;
+    
     private static Sprite whiteSquareSprite;
     
     private readonly HashSet<IsDamageable> hitThisSwing = new HashSet<IsDamageable>();
@@ -21,7 +23,7 @@ public class WeaponHitbox : MonoBehaviour
     		target.TakeDamage(damage);
     		hitThisSwing.Add(target);
     		
-    		SpawnHitEffect(other.ClosestPoint(transform.position));
+    		SpawnEffect(other.ClosestPoint(transform.position));
     	}
     }
     
@@ -30,7 +32,12 @@ public class WeaponHitbox : MonoBehaviour
     	hitThisSwing.Clear();
     }
     
-    private void SpawnHitEffect(Vector2 position)
+    public void PlaySwingEffect()
+    {
+    	SpawnEffect(transform.position);
+    }
+    
+    private void SpawnEffect(Vector2 position)
     {
     	if (whiteSquareSprite == null)
     	{
