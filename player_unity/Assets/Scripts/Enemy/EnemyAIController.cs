@@ -19,14 +19,19 @@ public class EnemyAIController : MonoBehaviour
     [SerializeField] private float detectionRange = 5f;
     [SerializeField] private float attackRange = 2.5f;
 
+    [SerializeField] private Vector3 unit_velocity;
     [SerializeField] private float moveSpeed = 2.0f;
-    [SerializeField] private float moveDistance = 5.0f;
     [SerializeField] private AIState currentState = AIState.Idle;
+
+
 
     private SpriteRenderer spriteRenderer;
 
     private Vector3 startPosition;
     private int direction = 1;
+    private float patrolDistance = 0f;
+    [SerializeField] private float moveDistance = 5.0f;
+    private bool turn = false;
 
     //Use before referencing the manager to ensure no run-time errors.
     bool hasManagerInstance = false;
@@ -37,8 +42,15 @@ public class EnemyAIController : MonoBehaviour
     public bool beginEngage = false;
     int engagementTicks = 0;
 
+    //Jagged Approach Variables
+    float jaggedOffset = 5.0f;
+    float jaggedPosition = 0.0f;
+    int jaggedDirection = 1;
+    float alpha = 60.0f;
+
     private void Start()
     {
+	unit_velocity = Vector3.zero;
         startPosition = transform.position;
 	spriteRenderer = GetComponent<SpriteRenderer>();
 	if (player == null)
@@ -60,6 +72,7 @@ public class EnemyAIController : MonoBehaviour
 	float distanceToPlayer = calcDistanceToPlayer(player); 
 	EvaluateState(distanceToPlayer);
 	HandleCurrentState();
+	HandleMovement();
     }
 
     public AIState getCurrentState()
@@ -101,7 +114,7 @@ public class EnemyAIController : MonoBehaviour
 	    else if (currentState != AIState.Chase)
 	    {
 		//If it has begun engagement, we check using engagementTicks whether it should still be in engagement mode. Here the enemy will be in engagement for 100 ticks.
-		if (engagementTicks < 100)
+		if (engagementTicks < 10000)
 		{
 		    //If enemy is still engaged, maintain currentState in AIState.Engage
 	            currentState = AIState.Engage;
@@ -179,20 +192,50 @@ public class EnemyAIController : MonoBehaviour
 
     private void HandleEngage()
     {
-	//
+	//rotation_methodB();
+	moveSpeed = 7;
+	JaggedApproach();
+    }
+
+    private void rotation_methodA()
+    {
+        //Attempting to use matrix rotation.
+	Vector3 test_vec = (transform.position - player.position);
+	//Limiting rotation
+	float maxRotation = 5.0f;
+	float currentRotation = (float)engagementTicks % maxRotation;
+	test_vec = Quaternion.Euler(0, 0, currentRotation) * test_vec;
+	transform.position = test_vec;
+	Debug.Log($"currentRotation: {currentRotation}");
+    }
+    private void rotation_methodB()
+    {
+	//Using a circle around the player as the movement curve, we use sin and cos functions to calculate the current (ideal) location of the enemy based on how long it's been in the Engage state (measured by engagementTicks)
 	float engagementDistance = 3.0f;
 	float dampener = 16.0f;
-	double x = player.position.x + engagementDistance * Math.Sin(engagementTicks / dampener);
-	double y = player.position.y + engagementDistance * Math.Cos(engagementTicks / dampener);
+	double x = player.position.x + engagementDistance * Math.Cos(engagementTicks / dampener);
+	double y = player.position.y + engagementDistance * Math.Sin(engagementTicks / dampener);
 
+        //Once the ideal x,y coordinates are calculated, we set the enemy's current transform.position to those x and way (by first calculated the difference between the enemy's current pos to the correct pos and then subtracting it back in.)
         Vector3 diff = transform.position;
 	diff.x -= (float)x;
 	diff.y -= (float)y;
 
-	transform.position -= diff;
+	unit_velocity = -1*diff;
+	unit_velocity = unit_velocity.normalized;
 
+    }
 
-
+    private void JaggedApproach()
+    {
+	Vector3 vec_to_player = player.position - transform.position;
+	unit_velocity = jaggedDirection * (Quaternion.Euler(0,0,alpha) * vec_to_player).normalized;
+	if (jaggedPosition >= jaggedOffset)
+	{
+	   jaggedDirection *= -1;
+	   jaggedPosition = 0;
+	}
+	
     }
 
     private void HandleAttack()
@@ -225,20 +268,38 @@ public class EnemyAIController : MonoBehaviour
 
     private void MoveBackAndForth()
     {
-        transform.position +=
-            Vector3.right * direction * moveSpeed * Time.deltaTime;
+//        transform.position +=
+//            Vector3.right * direction * moveSpeed * Time.deltaTime;
+//
 
-        float distanceFromStart =
-            transform.position.x - startPosition.x;
+	if (unit_velocity == Vector3.zero)
+	{
+            unit_velocity = Vector3.right;
+	}
 
-        if (distanceFromStart >= moveDistance)
-        {
-            direction = -1;
-        }
-        else if (distanceFromStart <= -moveDistance)
-        {
-            direction = 1;
-        }
+	if (turn)
+	{
+            
+	    Debug.Log(@$"patrolDistance = {patrolDistance}
+			 direction = {direction}
+			 moveDistance = {moveDistance}");
+	}
+
+	patrolDistance = Math.Abs((transform.position - startPosition).magnitude);
+	turn = patrolDistance > moveDistance;
+	if (turn)
+	{
+            patrolDistance = 0;
+	    direction *= -1;
+	    startPosition = transform.position;
+            unit_velocity *= direction;
+	    Debug.Log(@$"patrolDistance = {patrolDistance}
+			 direction = {direction}
+			 moveDistance = {moveDistance}
+			 turn = {turn}");
+	}
+
+
     }
 
 
@@ -250,7 +311,8 @@ public class EnemyAIController : MonoBehaviour
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 	Vector2 vecDirection = (player.position - transform.position).normalized;
 
-        transform.position += (Vector3)(vecDirection * moveSpeed * Time.deltaTime);
+//        transform.position += (Vector3)(vecDirection * moveSpeed * Time.deltaTime);
+        unit_velocity = vecDirection;
 
     }
 
@@ -263,6 +325,11 @@ public class EnemyAIController : MonoBehaviour
 	
     }
 
+    private void HandleMovement()
+    {
+	transform.position += (unit_velocity * moveSpeed * Time.deltaTime);
+    }
+
 
     private void UpdateColor()
     {
@@ -271,6 +338,10 @@ public class EnemyAIController : MonoBehaviour
         case AIState.Idle:
             spriteRenderer.color = Color.white;
             break;
+
+	case AIState.Engage:
+	    spriteRenderer.color = Color.cyan;
+	    break;
 
         case AIState.Chase:
             spriteRenderer.color = Color.yellow;
