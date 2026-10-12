@@ -1,3 +1,5 @@
 ﻿<Solution>
-  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="TestAssemblyFolder.csproj" />
+  <Project Path="SlimeSLayer.Gameplay.csproj" />
+  <Project Path="EditModeTests.csproj" />
 </Solution>
