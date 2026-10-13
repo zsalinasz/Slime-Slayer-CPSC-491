@@ -5,6 +5,8 @@ public class EnemyHealth : MonoBehaviour, IsDamageable
 
     [SerializeField] private int health = 100;
     [SerializeField] private GameObject deathEffectPrefab;
+	[SerializeField] private GameObject hitEffectPrefab;
+	
     bool hasManagerInstance = false;
     private EnemyAIController controllerInstance;
 
@@ -37,9 +39,18 @@ public class EnemyHealth : MonoBehaviour, IsDamageable
 	    controllerInstance.tookHit = true;
 	}
 
-        health -= damage;
+    health -= damage;
 
 	Debug.Log($"Enemy took {damage} damage. Health: {health}");
+
+    if (hitEffectPrefab != null)
+    {
+        Instantiate(
+            hitEffectPrefab,
+            transform.position,
+            Quaternion.identity
+        );
+    }
 
 	if (health <= 0)
 	{
