@@ -57,7 +57,7 @@ public class EnemyAIController : MonoBehaviour
 	        player = GameObject.FindGameObjectWithTag("Player").transform;
 	if (EnemyManager.Instance == null)
 	{
-            Debug.LogError("EnemyManager doesn't exist.");
+            Debug.Log("EnemyManager doesn't exist.");
 	}
 	else
 	{
