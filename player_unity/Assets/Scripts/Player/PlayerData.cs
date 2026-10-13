@@ -26,7 +26,7 @@ public class PlayerData
     public int currency;
 
     // Inventory / perks
-    public List<string> inventoryItemIds;
+    public List<Item> inventoryItemIds;
     public List<string> unlockedPerkIds;
 
     public PlayerData()
@@ -49,7 +49,7 @@ public class PlayerData
 
 	currency = 0;
 
-	inventoryItemIds = new List<string>();
+	inventoryItemIds = new List<Item>();
 	unlockedPerkIds = new List<string>();
     }
 
