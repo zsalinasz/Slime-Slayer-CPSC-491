@@ -201,6 +201,7 @@ MonoBehaviour:
   moveSpeed: 2
   moveDistance: 5
   currentState: 0
+  tookHit: 0
 --- !u!114 &7846038557650402499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,3 +215,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: SlimeSLayer.Gameplay::EnemyHealth
   health: 5
+  deathEffectPrefab: {fileID: 5341478598081025479, guid: 9a48816dba46c18f5b71e714a832a932, type: 3}

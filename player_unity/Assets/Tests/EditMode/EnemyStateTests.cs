@@ -41,13 +41,13 @@ public class EnemyStateTests
     }
 
     [Test]
-    public void EnemyInsideDetectionRange_TransitionsToChase()
+    public void EnemyInsideDetectionRange_TransitionsToEngage()
     {
 	    playerTransform.position = new Vector3(2.5f, 2.5f, 0f);
 	    float distanceToPlayer = enemy.calcDistanceToPlayer(playerTransform);
 	    enemy.EvaluateState(distanceToPlayer);
 
-	    Assert.AreEqual(AIState.Chase, enemy.getCurrentState());
+	    Assert.AreEqual(AIState.Engage, enemy.getCurrentState());
     }
 
     [Test]
