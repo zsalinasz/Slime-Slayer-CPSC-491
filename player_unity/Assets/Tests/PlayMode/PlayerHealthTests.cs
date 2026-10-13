@@ -59,6 +59,16 @@ public class PlayerHealthTests
         field.SetValue(health, value);
     }
     
+    private T GetPrivateField<T>(string fieldName)
+        {
+        	FieldInfo field = typeof(PlayerHealth).GetField(fieldName, 
+        		BindingFlags.NonPublic | BindingFlags.Instance);
+        		
+        	Assert.NotNull(field, $"Couldn't find private field '{fieldName}' in PlayerHealth");
+        	
+        	return (T)field.GetValue(health);
+        }
+    
     [UnityTest]
     public IEnumerator PlayerStartsAtMaximumHealth()
     {
@@ -135,7 +145,14 @@ public class PlayerHealthTests
     	
     	Assert.AreEqual(2, currentHealth);
     	
-    	yield return new WaitForSeconds(0.15f);
+    	Assert.IsTrue(GetPrivateField<bool>("isInvincible"), 
+    		"Player should be invincible after taking damage.");
+    	
+    	yield return new WaitUntil(() => !GetPrivateField<bool>("isInvincible"));
+    		
+    	Assert.IsFalse(GetPrivateField<bool>("isInvincible"),
+    		"Invincibility should have ended before second hit");
+    	//yield return new WaitForSeconds(0.2f);
     	
     	health.TakeDamage(1);
     	
