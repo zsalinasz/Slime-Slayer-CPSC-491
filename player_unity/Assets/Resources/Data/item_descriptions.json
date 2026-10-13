@@ -1,0 +1,12 @@
+{
+    "descriptions": [
+        {
+            "key": "health_potion",
+            "text": "Restores a small amount of health."
+        },
+        {
+            "key": "iron_sword",
+            "text": "A sturdy iron sword with a well-worn grip."
+        }
+    ]
+}
