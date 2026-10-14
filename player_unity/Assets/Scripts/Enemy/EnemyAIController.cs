@@ -23,6 +23,8 @@ public class EnemyAIController : MonoBehaviour
     [SerializeField] private float moveSpeed = 2.0f;
     [SerializeField] private AIState currentState = AIState.Idle;
 
+    [SerializeField] private EnemyAnimationController animationController;
+
 
 
     private SpriteRenderer spriteRenderer;
@@ -328,7 +330,8 @@ public class EnemyAIController : MonoBehaviour
 
     private void HandleMovement()
     {
-	transform.position += (unit_velocity * moveSpeed * Time.deltaTime);
+	    transform.position += (unit_velocity * moveSpeed * Time.deltaTime);
+        animationController.UpdateMovement(unit_velocity);
     }
 
 

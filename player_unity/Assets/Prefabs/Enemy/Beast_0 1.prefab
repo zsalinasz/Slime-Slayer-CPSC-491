@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 1078886873710613090}
   - component: {fileID: 5294427107195902200}
   - component: {fileID: 7846038557650402499}
+  - component: {fileID: 6084554931745515237}
+  - component: {fileID: 5591745745646064514}
   m_Layer: 0
   m_Name: Beast_0 1
   m_TagString: Untagged
@@ -86,7 +88,7 @@ SpriteRenderer:
   m_SortingLayer: 4
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -5479620187238129941, guid: 5448f73e2e9423896b9866367a2aec98, type: 3}
+  m_Sprite: {fileID: 4841162235366619301, guid: ea451261c9a6820f884d75023b58f5ad, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -135,7 +137,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.32, y: 0.31}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -196,12 +198,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAIController
   player: {fileID: 0}
-  detectionRange: 10
+  detectionRange: 5
   attackRange: 0.5
+  unit_velocity: {x: 0, y: 0, z: 0}
   moveSpeed: 2
-  moveDistance: 5
   currentState: 0
+  animationController: {fileID: 5591745745646064514}
+  moveDistance: 5
   tookHit: 0
+  beginEngage: 0
 --- !u!114 &7846038557650402499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,3 +221,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: SlimeSLayer.Gameplay::EnemyHealth
   health: 5
   deathEffectPrefab: {fileID: 5341478598081025479, guid: 9a48816dba46c18f5b71e714a832a932, type: 3}
+  hitEffectPrefab: {fileID: 0}
+--- !u!95 &6084554931745515237
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6207684557070937032}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 41c759269ab4d5116a4c5850a911bce7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5591745745646064514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6207684557070937032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e6febb14224f1fb6920399ab8945be6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SlimeSLayer.Gameplay::EnemyAnimationController
+  animator: {fileID: 6084554931745515237}

@@ -82,6 +82,7 @@ public class InGameMenuController : MonoBehaviour
         isPaused = false;
 	    img_under_construction.SetActive(false);
 	    sign_shown = false;
+
     }
     public void UnderConstruction()
     {
