@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 6084554931745515237}
   - component: {fileID: 5591745745646064514}
   m_Layer: 0
-  m_Name: Beast_0 1
+  m_Name: animated_enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -629404977
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 4841162235366619301, guid: ea451261c9a6820f884d75023b58f5ad, type: 3}
@@ -221,7 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: SlimeSLayer.Gameplay::EnemyHealth
   health: 5
   deathEffectPrefab: {fileID: 5341478598081025479, guid: 9a48816dba46c18f5b71e714a832a932, type: 3}
-  hitEffectPrefab: {fileID: 0}
+  hitEffectPrefab: {fileID: 4784708782376916578, guid: 718b196b47bf540aebcfafd89ae4313d, type: 3}
 --- !u!95 &6084554931745515237
 Animator:
   serializedVersion: 7

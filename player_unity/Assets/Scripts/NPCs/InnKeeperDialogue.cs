@@ -4,9 +4,35 @@ using UnityEngine.InputSystem;
 public class InnkeeperDialogue : MonoBehaviour
 {
     [SerializeField] private DialogueController dialogueController;
+    [SerializeField] private Transform player;
+
+    [SerializeField] public float interactionDistance;
+    private float distance = 0.0f;
+
+    public void Start()
+    { 
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+
+        if (playerObject != null)
+        {
+            player = playerObject.transform;
+        }
+        else
+        {
+            Debug.LogWarning("NPCDialogue: Player not found.");
+        }
+    }
 
     public void Update()
     {
+        distance = Vector2.Distance(transform.position, player.position);
+        if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            if (distance < interactionDistance)
+            {
+                Interact();
+            }
+        }
 
     }
 

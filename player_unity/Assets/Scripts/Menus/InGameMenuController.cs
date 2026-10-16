@@ -40,7 +40,7 @@ public class InGameMenuController : MonoBehaviour
 	    ui.btn_inventory.onClick.AddListener(OnButtonInventory);
 	    ui.btn_stats.onClick.AddListener(OnButtonStats);
 	    ui.btn_settings.onClick.AddListener(UnderConstruction);
-	    ui.btn_save_exit.onClick.AddListener(UnderConstruction);
+	    ui.btn_save_exit.onClick.AddListener(OnButtonExit);
         pauseMenuUI.SetActive(false);
 	    pauseBackGround.SetActive(false);
 	    img_under_construction.SetActive(false);
@@ -125,6 +125,15 @@ public class InGameMenuController : MonoBehaviour
             Debug.Log($"Description: {description}");
         }
 
+    }
+
+    public void OnButtonExit()
+    {
+        #if UNITY_EDITOR
+	    UnityEditor.EditorApplication.isPlaying = false;
+	    #else
+            Application.Quit();
+	    #endif
     }
 
 

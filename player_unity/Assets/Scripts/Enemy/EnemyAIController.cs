@@ -71,10 +71,10 @@ public class EnemyAIController : MonoBehaviour
     {
         UpdateColor();
 
-	float distanceToPlayer = calcDistanceToPlayer(player); 
-	EvaluateState(distanceToPlayer);
-	HandleCurrentState();
-	HandleMovement();
+	    float distanceToPlayer = calcDistanceToPlayer(player); 
+	    EvaluateState(distanceToPlayer);
+	    HandleCurrentState();
+	    HandleMovement();
     }
 
     public AIState getCurrentState()
