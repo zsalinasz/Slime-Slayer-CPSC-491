@@ -5,8 +5,6 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerHealth : MonoBehaviour
 {
-	[Header("Health")]
-	[SerializeField] private int maxHealth = 3;
 	
 	[Header("Damage")]
 	[SerializeField] private float invincibilityTime = 1f;
@@ -19,14 +17,13 @@ public class PlayerHealth : MonoBehaviour
 	[Header("Death & Respawn")]
 	[SerializeField] private float respawnDelay = 2f;
 	[SerializeField] private Transform respawnPoint;
-	[Tooltip("Movement/input scripts to turn off whole dead")]
+	[Tooltip("Movement/input scripts to turn off while dead")]
 	[SerializeField] private Behaviour[] disableWhileDead;
 	
 	public UnityEvent<int, int> OnHealthChanged = new UnityEvent<int, int>();
 	public UnityEvent OnDied = new UnityEvent();
 	public UnityEvent OnRespawned = new UnityEvent();
 	
-	private int currentHealth;
 	private bool isInvincible;
 	private bool isDead;
 	private Rigidbody2D rb;
@@ -35,11 +32,24 @@ public class PlayerHealth : MonoBehaviour
 	
 	public bool IsDead => isDead;
 	
+	private PlayerData Data
+	{
+		get
+		{
+			if (PlayerDataManager.Instance == null)
+			{
+				Debug.LogError("PlayerHealth needs a PlayerDataManager in the scene.");
+				return null;
+			}
+			
+			return PlayerDataManager.Instance.Data;
+		}
+	}
+	
 	private void Awake() 
 	{
 		rb = GetComponent<Rigidbody2D>();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-		currentHealth = maxHealth;
 	}
 	
 	private void Start()
@@ -51,13 +61,14 @@ public class PlayerHealth : MonoBehaviour
 			respawnPoint = point.transform;
 		}
 		
-		OnHealthChanged?.Invoke(currentHealth, maxHealth);
+		if (Data != null)
+			OnHealthChanged?.Invoke(Data.currentHealth, Data.maxHealth);
 	}
 	
 	// damage from attacking enemies
 	public void TakeDamage(int amount, Vector2 sourcePosition)
 	{
-		if (isDead || isInvincible)
+		if (Data == null || isDead || isInvincible)
 			return;
 			
 		ApplyDamage(amount);
@@ -75,7 +86,7 @@ public class PlayerHealth : MonoBehaviour
 	// damage from status effect or environment
 	public void TakeDamage(int amount)
 	{
-		if (isDead || isInvincible)
+		if (Data == null || isDead || isInvincible)
 			return;
 			
 		ApplyDamage(amount);
@@ -86,10 +97,10 @@ public class PlayerHealth : MonoBehaviour
 		if (isDead || isInvincible)
 			return;
 			
-		currentHealth = Mathf.Max(currentHealth - amount, 0);
-		OnHealthChanged?.Invoke(currentHealth, maxHealth);
+		Data.currentHealth = Mathf.Max(Data.currentHealth - amount, 0);
+		OnHealthChanged?.Invoke(Data.currentHealth, Data.maxHealth);
 		
-		if (currentHealth <= 0)
+		if (Data.currentHealth <= 0)
 			StartCoroutine(DieAndRespawn());
 			
 		else
@@ -98,11 +109,11 @@ public class PlayerHealth : MonoBehaviour
 	
 	public void Heal(int amount)
 	{
-		if (isDead)
+		if (Data == null || isDead)
 			return;
 			
-		currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
-		OnHealthChanged?.Invoke(currentHealth, maxHealth);
+		Data.currentHealth = Mathf.Min(Data.currentHealth + amount, Data.maxHealth);
+		OnHealthChanged?.Invoke(Data.currentHealth, Data.maxHealth);
 	}
 	
 	public void SetRespawnPoint(Transform newPoint)
@@ -164,8 +175,11 @@ public class PlayerHealth : MonoBehaviour
 		rb.position = respawnPoint.position;
 		transform.position = respawnPoint.position;
 		
-		currentHealth = maxHealth;
-		OnHealthChanged?.Invoke(currentHealth, maxHealth);
+		if (Data != null)
+		{
+			Data.currentHealth = Data.maxHealth;
+			OnHealthChanged?.Invoke(Data.currentHealth, Data.maxHealth);
+		}
 		
 		if (spriteRenderer != null)
 			spriteRenderer.enabled = true;
