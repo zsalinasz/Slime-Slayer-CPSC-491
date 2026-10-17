@@ -21,9 +21,12 @@ public class PlayerCombat : MonoBehaviour
     {
     	hitboxCollider = swordHitbox.GetComponent<Collider2D>();
     	hitboxCollider.enabled = false;
+        
+        if (hitEffectPrefab)
+        {
+            swordHitbox.hitEffectPrefab = hitEffectPrefab;
+    	}
 
-        swordHitbox.hitEffectPrefab = hitEffectPrefab;
-    	
     	playerHealth = GetComponent<PlayerHealth>();
     }
     

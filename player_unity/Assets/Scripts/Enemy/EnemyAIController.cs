@@ -52,19 +52,19 @@ public class EnemyAIController : MonoBehaviour
 
     private void Start()
     {
-	unit_velocity = Vector3.zero;
+	    unit_velocity = Vector3.zero;
         startPosition = transform.position;
-	spriteRenderer = GetComponent<SpriteRenderer>();
-	if (player == null)
-	        player = GameObject.FindGameObjectWithTag("Player").transform;
-	if (EnemyManager.Instance == null)
-	{
-            Debug.Log("EnemyManager doesn't exist.");
-	}
-	else
-	{
-	    hasManagerInstance = true;
-	}
+	    spriteRenderer = GetComponent<SpriteRenderer>();
+	    if (player == null)
+	            player = GameObject.FindGameObjectWithTag("Player").transform;
+	    if (EnemyManager.Instance == null)
+	    {
+                Debug.Log("EnemyManager doesn't exist.");
+	    }
+	    else
+	    {
+	        hasManagerInstance = true;
+	    }
     }
 
     private void Update()
@@ -319,7 +319,10 @@ public class EnemyAIController : MonoBehaviour
     private void HandleMovement()
     {
 	    transform.position += (unit_velocity * moveSpeed * Time.deltaTime);
-        animationController.UpdateMovement(unit_velocity);
+        if (animationController)
+        {
+            animationController.UpdateMovement(unit_velocity);
+        }
     }
 
 

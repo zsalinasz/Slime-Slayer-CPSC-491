@@ -16,36 +16,32 @@ public class EnemyMovementTests
     {
         enemyObject = new GameObject("Enemy");
         enemyObject.AddComponent<SpriteRenderer>();
-	enemy = enemyObject.AddComponent<EnemyAIController>();
+	    enemy = enemyObject.AddComponent<EnemyAIController>();
 
 
-	enemyObject.transform.position = Vector3.zero;
+	    enemyObject.transform.position = Vector3.zero;
 
-	playerHolder = new GameObject("PlayerTarget");
-	playerTransform = playerHolder.transform;
-	playerTransform.position = new Vector3(5f, 0f, 0f);
-	enemy.setPlayerTransform(playerTransform);
+	    playerHolder = new GameObject("PlayerTarget");
+	    playerTransform = playerHolder.transform;
+	    playerTransform.position = new Vector3(5f, 0f, 0f);
+	    enemy.setPlayerTransform(playerTransform);
     }
 
     [TearDown]
     public void TearDown()
     {
         Object.Destroy(enemyObject);
-	Object.Destroy(playerHolder);
+	    Object.Destroy(playerHolder);
     }
 
     [UnityTest]
     public IEnumerator EnemyInChaseState_MovesCloserToPlayer()
     {
-        float initialDistance = Vector3.Distance(enemy.transform.position,
-			                        playerTransform.position
-			);
-	yield return new WaitForSeconds(2.5f);
+        float initialDistance = Vector3.Distance(enemy.transform.position, playerTransform.position);
+    	yield return new WaitForSeconds(2.5f);
 
-	float finalDistance = Vector3.Distance(enemy.transform.position,
-					      playerTransform.position
-			);
-	Assert.Less(finalDistance, initialDistance);
+	    float finalDistance = Vector3.Distance(enemy.transform.position, playerTransform.position);
+    	Assert.Less(finalDistance, initialDistance);
     }
 
 }
