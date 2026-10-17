@@ -21,6 +21,7 @@ public class NPCDialogue : MonoBehaviour
     private Transform player;
     private NPCPatrol patrol;
     private bool isTalking = false;
+    float distance;
 
     private void Awake()
     {
@@ -29,13 +30,19 @@ public class NPCDialogue : MonoBehaviour
 
     private void Start()
     {
-        GameObject playerObject =
-            GameObject.FindGameObjectWithTag("Player");
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
 
         if (playerObject != null)
+        {
             player = playerObject.transform;
+        }
         else
+        {
             Debug.LogWarning("NPCDialogue: Player not found.");
+        }
+
+        Debug.Log($"player: {player.position.x}, {player.position.y}");
+        Debug.Log($"player object transform: {playerObject.transform.position.x}, {playerObject.transform.position.y}");
     }
 
     private void Update()
@@ -43,7 +50,7 @@ public class NPCDialogue : MonoBehaviour
         if (player == null)
             return;
 
-        float distance = Vector2.Distance(
+        distance = Vector2.Distance(
             transform.position,
             player.position
         );
@@ -56,6 +63,10 @@ public class NPCDialogue : MonoBehaviour
             }
             else if (distance <= interactionRange)
             {
+                
+                Debug.Log($"player: {player.position.x}, {player.position.y}");
+                Debug.Log($"quest giver: {transform.position.x}, {transform.position.y}");
+                Debug.Log($"Distance: {distance}");
                 StartDialogue();
             }
         }

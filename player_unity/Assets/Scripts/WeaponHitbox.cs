@@ -9,6 +9,8 @@ public class WeaponHitbox : MonoBehaviour
     [SerializeField] private float hitEffectSize = 0.15f;
     [SerializeField] private float hitEffectLifetime = 0.15f;
     [SerializeField] private string hitEffectSortingLayer = "Player";
+
+    [SerializeField] public GameObject hitEffectPrefab;
     
     public int Damage => damage;
     
@@ -39,6 +41,7 @@ public class WeaponHitbox : MonoBehaviour
     
     private void SpawnEffect(Vector2 position)
     {
+        /*
     	if (whiteSquareSprite == null)
     	{
     		Texture2D texture = new Texture2D(1, 1);
@@ -46,15 +49,18 @@ public class WeaponHitbox : MonoBehaviour
     		texture.Apply();
     		whiteSquareSprite = Sprite.Create(texture, new Rect(0, 0, 1, 1), new Vector2 (0.5f, 0.5f), 1f);
     	}
+        */
     	
-    	GameObject effect = new GameObject("HitEffect");
-    	effect.transform.position = position;
-    	effect.transform.localScale = Vector3.one * hitEffectSize;
+    	//GameObject effect = new GameObject("HitEffect");
+    	//effect.transform.position = position;
+    	//effect.transform.localScale = Vector3.one * hitEffectSize;
+
+        GameObject effect = Instantiate(hitEffectPrefab, position, Quaternion.identity);
     	
-    	SpriteRenderer sr = effect.AddComponent<SpriteRenderer>();
-    	sr.sprite = whiteSquareSprite;
-    	sr.sortingLayerName = hitEffectSortingLayer;
-    	sr.sortingOrder = 100;
+    	//SpriteRenderer sr = effect.AddComponent<SpriteRenderer>();
+    	//sr.sprite = whiteSquareSprite;
+    	//sr.sortingLayerName = hitEffectSortingLayer;
+    	//sr.sortingOrder = 100;
     	
     	Destroy(effect, hitEffectLifetime);
     }

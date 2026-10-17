@@ -40,6 +40,8 @@ public class SwordCombatTests
     	hitboxCollider.size = new Vector2(0.5f, 0.5f);
     	
     	weaponHitbox = hitboxObject.AddComponent<WeaponHitbox>();
+        GameObject dummyPrefab = new GameObject("TestDummyPrefab");
+        weaponHitbox.hitEffectPrefab = dummyPrefab;
     	
     	SetPrivateField(playerCombat, "swordHitbox", weaponHitbox);
     	
