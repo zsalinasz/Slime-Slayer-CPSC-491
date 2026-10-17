@@ -8,6 +8,8 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private float attackDuration = 0.2f;
     [SerializeField] private float attackCooldown = 0.4f;
     [SerializeField] private float swordDistance = 0.50f;
+
+    [SerializeField] public GameObject hitEffectPrefab;
     
     private bool isAttacking;
     private Collider2D hitboxCollider;
@@ -19,7 +21,12 @@ public class PlayerCombat : MonoBehaviour
     {
     	hitboxCollider = swordHitbox.GetComponent<Collider2D>();
     	hitboxCollider.enabled = false;
-    	
+        
+        if (hitEffectPrefab)
+        {
+            swordHitbox.hitEffectPrefab = hitEffectPrefab;
+    	}
+
     	playerHealth = GetComponent<PlayerHealth>();
     }
     

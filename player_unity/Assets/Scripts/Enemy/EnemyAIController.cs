@@ -23,6 +23,8 @@ public class EnemyAIController : MonoBehaviour
     [SerializeField] private float moveSpeed = 2.0f;
     [SerializeField] private AIState currentState = AIState.Idle;
 
+    [SerializeField] private EnemyAnimationController animationController;
+
 
 
     private SpriteRenderer spriteRenderer;
@@ -50,29 +52,29 @@ public class EnemyAIController : MonoBehaviour
 
     private void Start()
     {
-	unit_velocity = Vector3.zero;
+	    unit_velocity = Vector3.zero;
         startPosition = transform.position;
-	spriteRenderer = GetComponent<SpriteRenderer>();
-	if (player == null)
-	        player = GameObject.FindGameObjectWithTag("Player").transform;
-	if (EnemyManager.Instance == null)
-	{
-            Debug.Log("EnemyManager doesn't exist.");
-	}
-	else
-	{
-	    hasManagerInstance = true;
-	}
+	    spriteRenderer = GetComponent<SpriteRenderer>();
+	    if (player == null)
+	            player = GameObject.FindGameObjectWithTag("Player").transform;
+	    if (EnemyManager.Instance == null)
+	    {
+                Debug.Log("EnemyManager doesn't exist.");
+	    }
+	    else
+	    {
+	        hasManagerInstance = true;
+	    }
     }
 
     private void Update()
     {
         UpdateColor();
 
-	float distanceToPlayer = calcDistanceToPlayer(player); 
-	EvaluateState(distanceToPlayer);
-	HandleCurrentState();
-	HandleMovement();
+	    float distanceToPlayer = calcDistanceToPlayer(player); 
+	    EvaluateState(distanceToPlayer);
+	    HandleCurrentState();
+	    HandleMovement();
     }
 
     public AIState getCurrentState()
@@ -237,14 +239,6 @@ public class EnemyAIController : MonoBehaviour
             unit_velocity = Vector3.right;
 	}
 
-	if (turn)
-	{
-            
-	    Debug.Log(@$"patrolDistance = {patrolDistance}
-			 direction = {direction}
-			 moveDistance = {moveDistance}");
-	}
-
 	patrolDistance = Math.Abs((transform.position - startPosition).magnitude);
 	turn = patrolDistance > moveDistance;
 	if (turn)
@@ -253,10 +247,6 @@ public class EnemyAIController : MonoBehaviour
 	    direction *= -1;
 	    startPosition = transform.position;
             unit_velocity *= direction;
-	    Debug.Log(@$"patrolDistance = {patrolDistance}
-			 direction = {direction}
-			 moveDistance = {moveDistance}
-			 turn = {turn}");
 	}
 
 
@@ -328,7 +318,11 @@ public class EnemyAIController : MonoBehaviour
 
     private void HandleMovement()
     {
-	transform.position += (unit_velocity * moveSpeed * Time.deltaTime);
+	    transform.position += (unit_velocity * moveSpeed * Time.deltaTime);
+        if (animationController)
+        {
+            animationController.UpdateMovement(unit_velocity);
+        }
     }
 
 
