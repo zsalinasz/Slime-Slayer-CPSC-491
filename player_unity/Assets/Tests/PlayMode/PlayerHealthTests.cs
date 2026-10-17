@@ -6,16 +6,25 @@ using UnityEngine.TestTools;
 
 public class PlayerHealthTests
 {
+    private GameObject playerDataManagerObject;
+    private PlayerDataManager playerDataManager;
+    
     private GameObject player;
     private PlayerHealth health;
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
-    private int currentHealth;
-    private int maxHealth;
+    
+    private int currentHealth => playerDataManager.Data.currentHealth;
+    private int maxHealth => playerDataManager.Data.maxHealth;
 
     [SetUp]
     public void SetUp()
     {
+    	playerDataManagerObject = new GameObject("TestPlayerDataManager");
+    	playerDataManager = playerDataManagerObject.AddComponent<PlayerDataManager>();
+    	//playerDataManager.Data.maxHealth = 3;
+    	//playerDataManager.Data.currentHealth = 3;
+    	
         player = new GameObject("Player");
 
         rb = player.AddComponent<Rigidbody2D>();
@@ -33,13 +42,13 @@ public class PlayerHealthTests
         SetPrivateField("knockbackDuration", 0.05f);
         SetPrivateField("disableWhileDead", new Behaviour[0]);
 
-        health.OnHealthChanged.AddListener(
-            (current, max) =>
-            {
-                currentHealth = current;
-                maxHealth = max;
-            }
-        );
+        //health.OnHealthChanged.AddListener(
+          //  (current, max) =>
+            //{
+              //  currentHealth = current;
+                //maxHealth = max;
+            //}
+        //);
     }
 
     [TearDown]
@@ -47,6 +56,9 @@ public class PlayerHealthTests
     {
         if (player != null)
         	Object.Destroy(player);
+        	
+        if (playerDataManagerObject != null)
+        	Object.DestroyImmediate(playerDataManagerObject);
     }
 
     private void SetPrivateField(string fieldName, object value)
@@ -74,8 +86,7 @@ public class PlayerHealthTests
     {
     	yield return null;
     	
-    	Assert.AreEqual(3, currentHealth);
-    	Assert.AreEqual(3, maxHealth);
+    	Assert.AreEqual(maxHealth, currentHealth, "Player spawned with full health.");
     }
     
     [UnityTest]
@@ -85,7 +96,7 @@ public class PlayerHealthTests
     	
     	health.TakeDamage(1);
     	
-    	Assert.AreEqual(2, currentHealth);
+    	Assert.AreEqual(maxHealth - 1, currentHealth);
     }
     
     [UnityTest]
@@ -93,7 +104,7 @@ public class PlayerHealthTests
     {
     	yield return null;
     	
-    	health.TakeDamage(50);
+    	health.TakeDamage(maxHealth + 50);
     	
     	Assert.AreEqual(0, currentHealth);
     }
@@ -105,11 +116,11 @@ public class PlayerHealthTests
     	
     	health.TakeDamage(1);
     	
-    	Assert.AreEqual(2, currentHealth);
+    	Assert.AreEqual(maxHealth - 1, currentHealth);
     	
     	health.Heal(1);
     	
-    	Assert.AreEqual(3, currentHealth);
+    	Assert.AreEqual(maxHealth, currentHealth);
     }
     
     [UnityTest]
@@ -129,11 +140,11 @@ public class PlayerHealthTests
     	
     	health.TakeDamage(1);
     	
-    	Assert.AreEqual(2, currentHealth);
+    	Assert.AreEqual(maxHealth - 1, currentHealth);
     	
     	health.TakeDamage(1);
     	
-    	Assert.AreEqual(2, currentHealth);
+    	Assert.AreEqual(maxHealth - 1, currentHealth);
     }
     
     [UnityTest]
@@ -143,7 +154,7 @@ public class PlayerHealthTests
     	
     	health.TakeDamage(1);
     	
-    	Assert.AreEqual(2, currentHealth);
+    	Assert.AreEqual(maxHealth - 1, currentHealth);
     	
     	Assert.IsTrue(GetPrivateField<bool>("isInvincible"), 
     		"Player should be invincible after taking damage.");
@@ -156,7 +167,7 @@ public class PlayerHealthTests
     	
     	health.TakeDamage(1);
     	
-    	Assert.AreEqual(1, currentHealth);
+    	Assert.AreEqual(maxHealth - 2, currentHealth);
     }
     
     [UnityTest]
@@ -164,7 +175,7 @@ public class PlayerHealthTests
     {
     	yield return null;
     	
-    	health.TakeDamage(3);
+    	health.TakeDamage(maxHealth);
     	
     	Assert.IsTrue(health.IsDead);
     }
@@ -181,7 +192,7 @@ public class PlayerHealthTests
     		diedEventCalled = true;
     	});
     	
-    	health.TakeDamage(3);
+    	health.TakeDamage(maxHealth);
     	
     	Assert.IsTrue(diedEventCalled);
     }
@@ -198,8 +209,8 @@ public class PlayerHealthTests
     		deathCount++;
     	});
     	
-    	health.TakeDamage(3);
-    	health.TakeDamage(3);
+    	health.TakeDamage(maxHealth);
+    	health.TakeDamage(maxHealth);
     	
     	Assert.AreEqual(1, deathCount);
     }
@@ -214,7 +225,7 @@ public class PlayerHealthTests
     	
     	health.SetRespawnPoint(respawn.transform);
     	
-    	health.TakeDamage(3);
+    	health.TakeDamage(maxHealth);
     	
     	Assert.IsTrue(health.IsDead);
     	
@@ -233,7 +244,7 @@ public class PlayerHealthTests
     {
     	yield return null;
     	
-    	health.TakeDamage(3);
+    	health.TakeDamage(maxHealth);
     	
     	Assert.AreEqual(0, currentHealth);
     	
@@ -247,7 +258,7 @@ public class PlayerHealthTests
     {
     	yield return null;
     	
-    	health.TakeDamage(3);
+    	health.TakeDamage(maxHealth);
     	
     	Assert.IsTrue(health.IsDead);
     	
@@ -266,7 +277,7 @@ public class PlayerHealthTests
     		respawnEventCalled = true;
     	});
     	
-    	health.TakeDamage(3);
+    	health.TakeDamage(maxHealth);
     	
     	yield return new WaitForSeconds(0.15f);
     	
@@ -352,7 +363,7 @@ public class PlayerHealthTests
         	new Behaviour[] { controls }
     	);
 
-        health.TakeDamage(3);
+        health.TakeDamage(maxHealth);
 
         Assert.IsFalse(controls.enabled);
     }
@@ -370,7 +381,7 @@ public class PlayerHealthTests
         	new Behaviour[] { controls }
         );
 
-        health.TakeDamage(3);
+        health.TakeDamage(maxHealth);
 
         Assert.IsFalse(controls.enabled);
 
@@ -400,7 +411,7 @@ public class PlayerHealthTests
     {
         yield return null;
 
-        health.TakeDamage(3);
+        health.TakeDamage(maxHealth);
 
         yield return new WaitForSeconds(0.12f);
 

@@ -6,6 +6,9 @@ using UnityEngine.TestTools;
 
 public class SwordCombatTests
 {
+    private GameObject playerDataManagerObject;
+    private PlayerDataManager playerDataManager;
+
     private GameObject playerObject;
     private PlayerHealth playerHealth;
     private PlayerCombat playerCombat;
@@ -16,6 +19,9 @@ public class SwordCombatTests
     [SetUp]
     public void SetUp()
     {
+    	playerDataManagerObject = new GameObject("TestPlayerDataManager");
+    	playerDataManager = playerDataManagerObject.AddComponent<PlayerDataManager>();
+    
     	playerObject = new GameObject("TestPlayer");
     	playerObject.SetActive(false);
     	
@@ -47,6 +53,9 @@ public class SwordCombatTests
     {
     	if (playerObject != null)
     		Object.Destroy(playerObject);
+    		
+    	if (playerDataManagerObject != null)
+    		Object.DestroyImmediate(playerDataManagerObject);
     }
     
     private static void SetPrivateField(object target, string fieldName, object value)
