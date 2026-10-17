@@ -86,7 +86,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -629404977
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 4723107735738678597, guid: 7b66dc123749b326a8cbd752e1cfc780, type: 3}
@@ -348,6 +348,7 @@ MonoBehaviour:
   attackDuration: 0.2
   attackCooldown: 0.4
   swordDistance: 0.5
+  hitEffectPrefab: {fileID: 131300568008135247, guid: c20b6739cd7d69ed7b22cb5e5ad68971, type: 3}
 --- !u!1 &6023926108868370620
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,3 +444,4 @@ MonoBehaviour:
   hitEffectSize: 1
   hitEffectLifetime: 0.5
   hitEffectSortingLayer: Player
+  hitEffectPrefab: {fileID: 0}

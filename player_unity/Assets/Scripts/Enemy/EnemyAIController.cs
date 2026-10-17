@@ -239,14 +239,6 @@ public class EnemyAIController : MonoBehaviour
             unit_velocity = Vector3.right;
 	}
 
-	if (turn)
-	{
-            
-	    Debug.Log(@$"patrolDistance = {patrolDistance}
-			 direction = {direction}
-			 moveDistance = {moveDistance}");
-	}
-
 	patrolDistance = Math.Abs((transform.position - startPosition).magnitude);
 	turn = patrolDistance > moveDistance;
 	if (turn)
@@ -255,10 +247,6 @@ public class EnemyAIController : MonoBehaviour
 	    direction *= -1;
 	    startPosition = transform.position;
             unit_velocity *= direction;
-	    Debug.Log(@$"patrolDistance = {patrolDistance}
-			 direction = {direction}
-			 moveDistance = {moveDistance}
-			 turn = {turn}");
 	}
 
 

@@ -6,6 +6,8 @@ public class EnemyHealth : MonoBehaviour, IsDamageable
     [SerializeField] private int health = 100;
     [SerializeField] private GameObject deathEffectPrefab;
 	[SerializeField] private GameObject hitEffectPrefab;
+
+    public int enemy_idx = -1;
 	
     bool hasManagerInstance = false;
     private EnemyAIController controllerInstance;
@@ -63,10 +65,13 @@ public class EnemyHealth : MonoBehaviour, IsDamageable
         Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
 
         Destroy(gameObject);
-	if (hasManagerInstance)
-	{
-	    EnemyManager.Instance.enemyDead = true;
-	}
+	    if (hasManagerInstance)
+	    {
+            if (enemy_idx >= 0 && enemy_idx < EnemyManager.Instance.num_enemies)
+	        {
+                EnemyManager.Instance.enemyDead[enemy_idx] = true;
+            }
+	    }
     }
     
 }

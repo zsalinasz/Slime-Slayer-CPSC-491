@@ -88,7 +88,7 @@ public class PlayerHealth : MonoBehaviour
 			
 		currentHealth = Mathf.Max(currentHealth - amount, 0);
 		OnHealthChanged?.Invoke(currentHealth, maxHealth);
-		
+		Debug.Log($"Player takes {amount} damage, Current Health: {currentHealth}");
 		if (currentHealth <= 0)
 			StartCoroutine(DieAndRespawn());
 			

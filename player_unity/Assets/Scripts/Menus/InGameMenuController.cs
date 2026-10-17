@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 public class InGameMenuController : MonoBehaviour
 {
+    [SerializeField] GameObject panel_settings;
+
     public GameObject pauseMenuUI;
     public GameObject pauseBackGround;
     public GameObject img_under_construction;
@@ -25,21 +27,20 @@ public class InGameMenuController : MonoBehaviour
 	    }
 	    if (PlayerDataManager.Instance == null)
 	    {
-            Debug.LogError("PlayerDataManager does not exist.");
+            Debug.Log("PlayerDataManager does not exist. Certain functions won't work properly as a result.");
 	    }
 	    else
         {
 	        playerData = PlayerDataManager.Instance.Data;
         }
         
-//        if (ItemDataManager.In
 
 	    InGameMenuUI ui = pauseMenuUI.GetComponent<InGameMenuUI>();
 
 	    ui.btn_resume.onClick.AddListener(Resume);
 	    ui.btn_inventory.onClick.AddListener(OnButtonInventory);
 	    ui.btn_stats.onClick.AddListener(OnButtonStats);
-	    ui.btn_settings.onClick.AddListener(UnderConstruction);
+	    ui.btn_settings.onClick.AddListener(OnButtonSettings);
 	    ui.btn_save_exit.onClick.AddListener(OnButtonExit);
         pauseMenuUI.SetActive(false);
 	    pauseBackGround.SetActive(false);
@@ -87,44 +88,81 @@ public class InGameMenuController : MonoBehaviour
     public void UnderConstruction()
     {
         if (sign_shown)
-	{
-	    img_under_construction.SetActive(false);
-	}
-	else
-	{
-	    img_under_construction.SetActive(true);
-	}
-	sign_shown = !sign_shown;
+	    {
+	        img_under_construction.SetActive(false);
+	    }
+	    else
+	    {
+	        img_under_construction.SetActive(true);
+	    }
+	    sign_shown = !sign_shown;
     }
     public void OnButtonStats()
     {
-        
-	Debug.Log(@$"Name: {playerData.playerName}
-        Level: {playerData.level}
-        Experience: {playerData.experience}
-        Current Health: {playerData.currentHealth}
-        Max Health: {playerData.maxHealth}
-        Current Stamina: {playerData.currentStamina}
-        Max Stamina: {playerData.maxStamina}
-        Strength: {playerData.strength}
-        Perception: {playerData.perception}
-        Agility: {playerData.agility}
-        Endurance: {playerData.endurance}
-        Currency: {playerData.currency}");
+       if (PlayerDataManager.Instance)
+       {
+    	Debug.Log(@$"Name: {playerData.playerName}
+            Level: {playerData.level}
+            Experience: {playerData.experience}
+            Current Health: {playerData.currentHealth}
+            Max Health: {playerData.maxHealth}
+            Current Stamina: {playerData.currentStamina}
+            Max Stamina: {playerData.maxStamina}
+            Strength: {playerData.strength}
+            Perception: {playerData.perception}
+            Agility: {playerData.agility}
+            Endurance: {playerData.endurance}
+            Currency: {playerData.currency}");
+       }
 
-	UnderConstruction();
+    	UnderConstruction();
     }
 
     public void OnButtonInventory()
     {
         //Display item descriptions from player inventory
-        foreach (Item item in playerData.inventoryItemIds)
+        if (PlayerDataManager.Instance)
         {
-            string description = ItemDataManager.GetDescription(item.descriptionKey);
-            Debug.Log($"Item: {item.itemName}");
-            Debug.Log($"Description: {description}");
+            foreach (Item item in playerData.inventoryItemIds)
+            {
+                string description = ItemDataManager.GetDescription(item.descriptionKey);
+                Debug.Log($"Item: {item.itemName}");
+                Debug.Log($"Description: {description}");
+            }
         }
 
+    }
+    public void OnButtonSettings()
+    {
+        Debug.Log("In-Game Menu: Settings button was clicked.");
+        if (panel_settings)
+        {
+            if (panel_settings.activeInHierarchy)
+            {
+                CloseSettingsPanel();
+            }
+            else
+            {
+                OpenSettingsPanel();
+            }
+        }
+    }
+
+    public void OpenSettingsPanel()
+    {
+        Debug.Log("In-Game Menu: OpenSettingsPanel() called.");
+        if (panel_settings)
+        {
+            panel_settings.SetActive(true);
+        }
+    }
+    public void CloseSettingsPanel()
+    {
+        Debug.Log("In-Game Menu: CloseSettingsPanel() called.");
+        if (panel_settings)
+        {
+            panel_settings.SetActive(false);
+        }
     }
 
     public void OnButtonExit()
