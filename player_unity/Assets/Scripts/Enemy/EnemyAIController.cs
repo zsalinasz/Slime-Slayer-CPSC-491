@@ -95,57 +95,57 @@ public class EnemyAIController : MonoBehaviour
     {
         
         if (tookHit)
-	{
-	    currentState = AIState.HitReaction;
-	    //Return before evaluating the rest because taking a hit supercedes other concerns.
-	    return;
-	}
-
-	if (distanceToPlayer < detectionRange)
-	{
-	    //currentState = AIState.Chase;
-	    
-	    //The enemy detects the player.
-	    //First, we find out if it is not currently chasing(aka charging) the player and hasn't started engagement yet.
-	    if (!beginEngage && currentState != AIState.Chase)
 	    {
-		//If so, we begin engagement and note that with a flag.
-		beginEngage = true;
-		currentState = AIState.Engage;
-	    }
-	    else if (currentState != AIState.Chase)
-	    {
-		//If it has begun engagement, we check using engagementTicks whether it should still be in engagement mode. Here the enemy will be in engagement for 100 ticks.
-		if (engagementTicks < 10000)
-		{
-		    //If enemy is still engaged, maintain currentState in AIState.Engage
-	            currentState = AIState.Engage;
-		    engagementTicks++;
-		}
-		else
-		{
-		    //If the enemy has completed engagement, reset the engagement state variables and set the AI state to chase.
-	            engagementTicks = 0;
-		    beginEngage = false;
-		    currentState = AIState.Chase;
-		}
-	    }
-	    else if (currentState == AIState.Chase)
-	    {
-		//If the AI is in chase mode, let the states handler process the action. No state variables need to be adjusted here at this time.
+	        currentState = AIState.HitReaction;
+	        //Return before evaluating the rest because taking a hit supercedes other concerns.
+	        return;
 	    }
 
-
-
-	    if (distanceToPlayer < attackRange)
+	    if (distanceToPlayer < detectionRange)
 	    {
-	        currentState = AIState.Attack;
+	        //currentState = AIState.Chase;
+	        
+	        //The enemy detects the player.
+	        //First, we find out if it is not currently chasing(aka charging) the player and hasn't started engagement yet.
+	        if (!beginEngage && currentState != AIState.Chase)
+	        {
+	    	//If so, we begin engagement and note that with a flag.
+	    	beginEngage = true;
+	    	currentState = AIState.Engage;
+	        }
+	        else if (currentState != AIState.Chase)
+	        {
+	    	//If it has begun engagement, we check using engagementTicks whether it should still be in engagement mode. Here the enemy will be in engagement for 100 ticks.
+	    	if (engagementTicks < 10000)
+	    	{
+	    	    //If enemy is still engaged, maintain currentState in AIState.Engage
+	                currentState = AIState.Engage;
+	    	    engagementTicks++;
+	    	}
+	    	else
+	    	{
+	    	    //If the enemy has completed engagement, reset the engagement state variables and set the AI state to chase.
+	                engagementTicks = 0;
+	    	    beginEngage = false;
+	    	    currentState = AIState.Chase;
+	    	}
+	        }
+	        else if (currentState == AIState.Chase)
+	        {
+	    	//If the AI is in chase mode, let the states handler process the action. No state variables need to be adjusted here at this time.
+	        }
+
+
+
+	        if (distanceToPlayer < attackRange)
+	        {
+	            currentState = AIState.Attack;
+	        }
 	    }
-	}
-	else
-	{
-	    currentState = AIState.Idle;
-	}
+	    else
+	    {
+	        currentState = AIState.Idle;
+	    }
     }
 
     public void HandleCurrentState()
@@ -194,9 +194,9 @@ public class EnemyAIController : MonoBehaviour
 
     private void HandleEngage()
     {
-	//rotation_methodB();
-	moveSpeed = 7;
-	JaggedApproach();
+    	//rotation_methodB();
+	    moveSpeed = 7;
+	    JaggedApproach();
     }
 
 

@@ -26,7 +26,9 @@ public class PlayerHealth : MonoBehaviour
 	public UnityEvent OnDied = new UnityEvent();
 	public UnityEvent OnRespawned = new UnityEvent();
 	
-	private int currentHealth;
+    private PlayerData playerData;
+
+	public int currentHealth;
 	private bool isInvincible;
 	private bool isDead;
 	private Rigidbody2D rb;
@@ -37,8 +39,21 @@ public class PlayerHealth : MonoBehaviour
 	
 	private void Awake() 
 	{
+        if (PlayerDataManager.Instance)
+        {
+            playerData = PlayerDataManager.Instance.Data;
+        }
+        else
+        {
+            Debug.Log("PlayerDataManager Instance doesn't exist, certain functionalities may be broken as a result.");
+        }
+
 		rb = GetComponent<Rigidbody2D>();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (PlayerDataManager.Instance)
+        {
+            maxHealth = playerData.maxHealth;
+        }
 		currentHealth = maxHealth;
 	}
 	
@@ -87,6 +102,7 @@ public class PlayerHealth : MonoBehaviour
 			return;
 			
 		currentHealth = Mathf.Max(currentHealth - amount, 0);
+        playerData.currentHealth = currentHealth;
 		OnHealthChanged?.Invoke(currentHealth, maxHealth);
 		Debug.Log($"Player takes {amount} damage, Current Health: {currentHealth}");
 		if (currentHealth <= 0)
@@ -165,6 +181,7 @@ public class PlayerHealth : MonoBehaviour
 		transform.position = respawnPoint.position;
 		
 		currentHealth = maxHealth;
+        playerData.currentHealth = currentHealth;
 		OnHealthChanged?.Invoke(currentHealth, maxHealth);
 		
 		if (spriteRenderer != null)

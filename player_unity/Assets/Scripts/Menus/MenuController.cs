@@ -14,7 +14,12 @@ public class MenuController : MonoBehaviour
     {
         if (Keyboard.current.tabKey.wasPressedThisFrame)
         {
-            menuCanvas.SetActive(!menuCanvas.activeSelf);
+            toggle_menu();
         }
+    }
+
+    public void toggle_menu()
+    {
+        menuCanvas.SetActive(!menuCanvas.activeSelf);
     }
 }
