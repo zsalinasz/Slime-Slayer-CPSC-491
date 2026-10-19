@@ -222,6 +222,7 @@ MonoBehaviour:
   health: 5
   deathEffectPrefab: {fileID: 5341478598081025479, guid: 9a48816dba46c18f5b71e714a832a932, type: 3}
   hitEffectPrefab: {fileID: 4784708782376916578, guid: 718b196b47bf540aebcfafd89ae4313d, type: 3}
+  enemy_idx: -1
 --- !u!95 &6084554931745515237
 Animator:
   serializedVersion: 7

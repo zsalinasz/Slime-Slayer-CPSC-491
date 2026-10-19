@@ -4,10 +4,13 @@ using UnityEngine.InputSystem;
 public class InGameMenuController : MonoBehaviour
 {
     [SerializeField] GameObject panel_settings;
+    [SerializeField] public GameObject inventoryMenu;
+    private MenuController invMenuController;
 
     public GameObject pauseMenuUI;
     public GameObject pauseBackGround;
     public GameObject img_under_construction;
+
 
     private GameObject playerObject; 
     private PlayerInput playerController;
@@ -34,6 +37,8 @@ public class InGameMenuController : MonoBehaviour
 	        playerData = PlayerDataManager.Instance.Data;
         }
         
+        
+        invMenuController = inventoryMenu.GetComponent<MenuController>();
 
 	    InGameMenuUI ui = pauseMenuUI.GetComponent<InGameMenuUI>();
 
@@ -130,6 +135,7 @@ public class InGameMenuController : MonoBehaviour
                 Debug.Log($"Description: {description}");
             }
         }
+        invMenuController.toggle_menu();
 
     }
     public void OnButtonSettings()
