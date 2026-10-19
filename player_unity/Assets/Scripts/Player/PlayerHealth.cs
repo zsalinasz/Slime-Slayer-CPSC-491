@@ -48,15 +48,6 @@ public class PlayerHealth : MonoBehaviour
 	
 	private void Awake() 
 	{
-        if (PlayerDataManager.Instance)
-        {
-            playerData = PlayerDataManager.Instance.Data;
-        }
-        else
-        {
-            Debug.Log("PlayerDataManager Instance doesn't exist, certain functionalities may be broken as a result.");
-        }
-
 		rb = GetComponent<Rigidbody2D>();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 	}
