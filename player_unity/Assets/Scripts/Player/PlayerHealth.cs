@@ -25,12 +25,15 @@ public class PlayerHealth : MonoBehaviour
 	public UnityEvent OnRespawned = new UnityEvent();
 	
 	private bool isInvincible;
+	private bool isDodgeInvincible;
 	private bool isDead;
 	private Rigidbody2D rb;
 	private SpriteRenderer spriteRenderer;
 	private Coroutine knockbackRoutine;
 	
 	public bool IsDead => isDead;
+	
+	private bool IsInvincible => isInvincible || isDodgeInvincible;
 	
 	private PlayerData Data
 	{
@@ -93,10 +96,7 @@ public class PlayerHealth : MonoBehaviour
 	}
 	
 	public void ApplyDamage(int amount)
-	{
-		if (isDead || isInvincible)
-			return;
-			
+	{		
 		Data.currentHealth = Mathf.Max(Data.currentHealth - amount, 0);
 		OnHealthChanged?.Invoke(Data.currentHealth, Data.maxHealth);
 		
@@ -119,6 +119,21 @@ public class PlayerHealth : MonoBehaviour
 	public void SetRespawnPoint(Transform newPoint)
 	{
 		respawnPoint = newPoint;
+	}
+	
+	public void SetDodgeInvincible(float duration)
+	{
+		if (isDead)
+			return;
+			
+		StartCoroutine(DodgeInvincibilityFrames(duration));
+	}
+	
+	private IEnumerator DodgeInvincibilityFrames(float duration)
+	{
+		isDodgeInvincible = true;
+		yield return new WaitForSeconds(duration);
+		isDodgeInvincible = false;
 	}
 	
 	private IEnumerator knockback(Vector2 direction)
