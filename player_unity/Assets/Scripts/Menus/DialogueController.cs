@@ -3,17 +3,17 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using TMPro;
 using System;
+using System.Collections.Generic;
 
 public class DialogueController : MonoBehaviour
 {
-    [SerializeField] private GameObject dialoguePanel;
+    [SerializeField] public GameObject dialoguePanel;
     [SerializeField] private TMP_Text speakerName;
     [SerializeField] private TMP_Text dialogueText;
     [SerializeField] private TMP_Text continuePrompt;
 
     [SerializeField] private GameObject choicesContainer;
-    [SerializeField] private Button choiceButton1;
-    [SerializeField] private Button choiceButton2;
+    [SerializeField] private List<Button> choiceButtons;
 
     private Action onContinue;
     private bool waitingForContinue;
@@ -39,10 +39,12 @@ public class DialogueController : MonoBehaviour
     public void ShowDialogue(
         string speaker,
         string message,
-        string option1,
-        Action action1,
-        string option2,
-        Action action2)
+        List<OptionActionPair> options
+        //string option1,
+        //Action action1,
+        //string option2,
+        //Action action2
+        )
     {
         dialoguePanel.SetActive(true);
 
@@ -54,20 +56,53 @@ public class DialogueController : MonoBehaviour
 
         waitingForContinue = false;
 
-        ConfigureButton(choiceButton1, option1, action1);
-        ConfigureButton(choiceButton2, option2, action2);
+
+        //ConfigureButton(choiceButton1, option1, action1);
+        //ConfigureButton(choiceButton2, option2, action2);
     }
 
-    private void ConfigureButton(
-        Button button,
+    public void CreateButtons(List<OptionActionPair> options)
+    {
+        foreach (OptionActionPair option_action in options)
+        {
+            CreateChoiceButton(option_action.option, option_action.action);
+        }
+
+    }
+
+    private void CreateChoiceButton(
         string label,
         Action action)
     {
-        button.GetComponentInChildren<TMP_Text>().text = label;
+        // Create a blank GameObject for the button frame
+        GameObject buttonObj = new GameObject("ChoiceButton", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button));
 
-        button.onClick.RemoveAllListeners();
+        // Parent it to the choices panel
+        GameObject choicesPanel = dialoguePanel.transform.Find("ChoicesPanel").gameObject;
+        buttonObj.transform.SetParent(choicesPanel.transform, false);
 
-        button.onClick.AddListener(() => action?.Invoke());
+        // Set the dimensions and positioning
+        RectTransform rectTransform = buttonObj.GetComponent<RectTransform>();
+        rectTransform.sizeDelta = new Vector2(250, 50);
+
+        // Configure the text inside the button
+        GameObject textObj = new GameObject("ButtonText", typeof(RectTransform), typeof(TextMeshProUGUI));
+        textObj.transform.SetParent(buttonObj.transform, false);
+
+        TextMeshProUGUI textComponent = textObj.GetComponent<TextMeshProUGUI>();
+        textComponent.text = label;
+        textComponent.fontSize = 18;
+        textComponent.alignment = TextAlignmentOptions.Center;
+        textComponent.color = Color.black;
+
+        //Match text size to button size
+        textObj.GetComponent<RectTransform>().sizeDelta = rectTransform.sizeDelta;
+
+        // Hook up the click event listener
+        Button choiceButton = buttonObj.GetComponent<Button>();
+        choiceButton.onClick.AddListener(() => action?.Invoke());
+        
+        choiceButtons.Add(choiceButton);
     }
 
     public void ShowMessage(

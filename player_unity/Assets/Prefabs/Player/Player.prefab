@@ -216,6 +216,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 856c860c-c168-47dd-b36d-df50310bc242
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1237464289373642005}
+        m_TargetAssemblyTypeName: PlayerMovement, SlimeSLayer.Gameplay
+        m_MethodName: Dodge
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 29db4e26-da2b-49f9-935b-23b62e7d3f5c
+    m_ActionName: 'Player/Dodge[/Keyboard/space]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -234,6 +250,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   moveSpeed: 7
+  dodgeSpeed: 12
+  dodgeDuration: 0.2
+  dodgeCooldown: 0.5
+  dodgeStaminaCost: 20
 --- !u!95 &4317018430299326455
 Animator:
   serializedVersion: 7
@@ -314,7 +334,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee06534a66b6deb3e80ce45ffe37a872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHealth: 30
   invincibilityTime: 1
   flashInterval: 0.1
   knockbackSpeed: 3
