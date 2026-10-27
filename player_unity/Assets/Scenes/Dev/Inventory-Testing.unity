@@ -1907,6 +1907,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 811797149a317c3c5af99e2983625ddc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: SlimeSLayer.Gameplay::PlayerDataManager
+  startingPotion: {fileID: 11400000, guid: 0707acb7d847dde48baeea93d9298ee4, type: 2}
+  startingSword: {fileID: 11400000, guid: ad0e90e895b132d4d8140b2849ad6ddb, type: 2}
 --- !u!4 &374584694
 Transform:
   m_ObjectHideFlags: 0
