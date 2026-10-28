@@ -2,5 +2,4 @@
   <Project Path="TestAssemblyFolder.csproj" />
   <Project Path="SlimeSLayer.Gameplay.csproj" />
   <Project Path="EditModeTests.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
 </Solution>
