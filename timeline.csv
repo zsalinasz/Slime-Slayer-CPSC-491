@@ -1,0 +1,27 @@
+PR,Date Merged (Pacific Time),Contributor,Summary,URL
+2,2026-09-14,moy-munoz,basic movement and collsion,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/2
+7,2026-09-14,zsalinasz,Add files via upload,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/7
+8,2026-09-14,OM-0000,Add files via upload,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/8
+9,2026-09-14,Acmcgee3,Add initial qa framework,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/9
+10,2026-09-16,moy-munoz,Unity project files,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/10
+12,2026-09-21,OM-0000,Implement enemy chase and attack state behavior,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/12
+15,2026-09-25,OM-0000,Add main menu UI and navigation,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/15
+16,2026-09-26,moy-munoz,CI/CD Movement Test implementation,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/16
+17,2026-09-26,OM-0000,Add Unity CI Workflow,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/17
+21,2026-09-27,OM-0000,Add automated tests for enemy AI,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/21
+22,2026-09-28,zsalinasz,Add snow environment to SampleScene,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/22
+26,2026-09-28,moy-munoz,Updates for the CI/CD ,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/26
+25,2026-09-28,OM-0000,"Create prefabs of player, enemy. create new scene for ai-testing",https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/25
+27,2026-09-28,Acmcgee3,Qa changes,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/27
+31,2026-10-01,OM-0000,In game menu,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/31
+32,2026-10-03,moy-munoz,Initial sword combat implementation,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/32
+34,2026-10-04,OM-0000,"Player, Enemy data models; combat integration; small ingame menu update",https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/34
+36,2026-10-05,Acmcgee3,Audio changes,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/36
+39,2026-10-11,zsalinasz,Add inventory UI testing scene and inventory scripts,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/39
+42,2026-10-12,Acmcgee3,Update .gitignore to main,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/42
+40,2026-10-12,OM-0000,Ai enemy,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/40
+41,2026-10-12,moy-munoz,Collision and movement,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/41
+44,2026-10-12,Acmcgee3,Add particles on enemy hit,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/44
+45,2026-10-12,OM-0000,Inventory/Data Model Update,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/45
+46,2026-10-12,zsalinasz,Implement QuestGiver NPC Patrol and Dialogue System,https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/46
+48,2026-10-17,OM-0000,"Integrated game model: Add Inn and Battle Zone Scenes, Improve Enemy Management, and Expand UI",https://github.com/zsalinasz/Slime-Slayer-CPSC-491/pull/48
