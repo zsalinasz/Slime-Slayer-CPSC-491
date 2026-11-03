@@ -7,6 +7,8 @@ public class PlayerDataManager : MonoBehaviour
 
     public PlayerData Data { get; private set; }
 
+    private bool data_initialized = false;
+
     // CHANGE 1: Add these fields here
     [Header("Starting Inventory")]
     [SerializeField] private ItemData startingPotion;
@@ -24,6 +26,7 @@ public class PlayerDataManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         Data = new PlayerData();
+        data_initialized = true;
     }
 
     void Start()
@@ -60,7 +63,6 @@ public class PlayerDataManager : MonoBehaviour
             );
         }
     }
-
     // Check whether the player owns enough of an item
     public bool HasItem(ItemData itemData, int amount = 1)
     {
@@ -169,4 +171,27 @@ public class PlayerDataManager : MonoBehaviour
         return true;
     }
 
+    public void InitData()
+    {
+        if (data_initialized)
+            return;
+
+        Data = new PlayerData();
+    }
+
+    public bool TrySetPlayerLevel(int newLevel)
+    {
+        if (newLevel < 1)
+        {
+            Debug.LogWarning(
+                $"Invalid player level: {newLevel}"
+            );
+
+            return false;
+        }
+
+        Data.level = newLevel;
+
+        return true;
+    }
 }
