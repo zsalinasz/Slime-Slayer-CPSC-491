@@ -4248,14 +4248,17 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6674692307654782843, guid: 5893c8a71401915ca800221763e06948, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1241937151}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3458514357529335153, guid: 5893c8a71401915ca800221763e06948, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1392074226}
   m_SourcePrefab: {fileID: 100100000, guid: 5893c8a71401915ca800221763e06948, type: 3}
 --- !u!114 &1392074222 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1237464289373642005, guid: 5893c8a71401915ca800221763e06948, type: 3}
   m_PrefabInstance: {fileID: 1392074221}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1392074225}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5af7658dcaec19de2a4f979703d1d980, type: 3}
@@ -4277,12 +4280,35 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1021630925281499778, guid: 5893c8a71401915ca800221763e06948, type: 3}
   m_PrefabInstance: {fileID: 1392074221}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1392074225}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc38faa3b8cc6d89895518b2b889c2a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: SlimeSLayer.Gameplay::PlayerCombat
+--- !u!1 &1392074225 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3458514357529335153, guid: 5893c8a71401915ca800221763e06948, type: 3}
+  m_PrefabInstance: {fileID: 1392074221}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1392074226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392074225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3f6c9a5f1b146be686c54616723007b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SlimeSLayer.Gameplay::PlayerHealthBar
+  barSprite: {fileID: 7107526608384918283, guid: e2e2aab1f43cb7f4c8423dfcee233855, type: 3}
+  offset: {x: 0, y: 0.8}
+  barWidth: 1
+  fillTint: {r: 1, g: 1, b: 1, a: 1}
+  emptyTint: {r: 0.25, g: 0.25, b: 0.25, a: 1}
+  sortingOrderOffset: 10
 --- !u!1 &1492540048
 GameObject:
   m_ObjectHideFlags: 0

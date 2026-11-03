@@ -36,7 +36,7 @@ public class PlayerData
 	level = 1;
 	experience = 0;
 
-	maxHealth = 100;
+	maxHealth = 10;
 	currentHealth = maxHealth;
 
 	maxStamina = 100;

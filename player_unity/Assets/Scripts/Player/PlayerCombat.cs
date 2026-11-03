@@ -76,8 +76,11 @@ public class PlayerCombat : MonoBehaviour
     		return false;
     		
     	if (playerHealth != null && playerHealth.IsDead)
+    	{
+    		Debug.Log("Cannot attack when dead.");
     		return false;
-    		
+    	}
+    	
     	StartCoroutine(Attack(currentWeapon));
     	return true;
     }
