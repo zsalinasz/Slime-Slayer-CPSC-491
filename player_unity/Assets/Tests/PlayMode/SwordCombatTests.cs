@@ -57,9 +57,6 @@ public class SwordCombatTests
     		hitEffectPrefab = dummyHitEffectPrefab
     	};
     	
-        //GameObject dummyPrefab = new GameObject("TestDummyPrefab");
-        //weaponHitbox.hitEffectPrefab = dummyPrefab;
-    	
     	SetPrivateField(playerCombat, "weapons", new PlayerCombat.WeaponConfig[] { swordConfig });
     	
     	playerObject.SetActive(true);
@@ -84,13 +81,6 @@ public class SwordCombatTests
     	Assert.NotNull(field, $"Expected a private field named '{fieldName}' on {target.GetType().Name}");
     	field.SetValue(target, value);
     }
-    
-    //private static T GetPrivateField<T>(object target, string fieldName)
-    //{
-    //	FieldInfo field = target.GetType().GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
-    //	Assert.NotNull(field, $"Expected a private field named '{fieldName}' on {target.GetType().Name}");
-    //	return (T)field.GetValue(target);
-    //}
     
     private TestDamageable CreateEnemy(Vector2 position)
     {
@@ -143,8 +133,8 @@ public class SwordCombatTests
     [UnityTest]
     public IEnumerator SwordDamage_MatchesConfigValue()
     {
-    	const int expectedDamage = 5;
-    	SetPrivateField(weaponHitbox, "damage", expectedDamage);
+    	const int expectedBaseDamage = 5;
+    	SetPrivateField(weaponHitbox, "damage", expectedBaseDamage);
     	
     	TestDamageable enemy = CreateEnemy(playerObject.transform.position);
     	
@@ -153,7 +143,7 @@ public class SwordCombatTests
     	yield return new WaitForFixedUpdate();
     	yield return new WaitForFixedUpdate();
     	
-    	Assert.AreEqual(expectedDamage, enemy.LastDamageReceived);
+    	Assert.AreEqual(weaponHitbox.Damage, enemy.LastDamageReceived);
     }
     
     [UnityTest]
@@ -194,10 +184,7 @@ public class SwordCombatTests
     
     [UnityTest]
     public IEnumerator AttackState_ReturnsToValidStateAfterFinishing()
-    {
-    	//float attackDuration = GetPrivateField<float>(playerCombat, "attackDuration");
-    	//float attackCooldown = GetPrivateField<float>(playerCombat, "attackCooldown");
-    	
+    {   	
     	playerCombat.TryAttack();
     	Assert.IsTrue(playerCombat.IsAttacking);
     	

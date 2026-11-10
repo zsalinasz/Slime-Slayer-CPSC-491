@@ -32,9 +32,27 @@ public class PlayerCombat : MonoBehaviour
     
     [SerializeField] private WeaponConfig[] weapons;
     
+    [Header("Stats")]
+    [Tooltip("Bonus damage per point of strength, as a percentage. 0.05 = +5% damage per point, so a strength of 5 gives +25%.")]
+    [SerializeField] private float strengthDamageScale = 0.05f;
+    
     private bool isAttacking;
     private PlayerHealth playerHealth;
     private WeaponConfig currentWeapon;
+    
+    private PlayerData Data
+    {
+    	get
+    	{
+    		if (PlayerDataManager.Instance == null)
+    		{
+    			Debug.LogError("PlayerCombat needs a 'PlayerDataManager in the scene but none was found.");
+    			return null;
+    		}
+    		
+    		return PlayerDataManager.Instance.Data;
+    	}
+    }
     
     public bool IsAttacking => isAttacking;
     public WeaponType CurrentWeaponType => currentWeapon != null ? currentWeapon.type : default;
@@ -93,6 +111,8 @@ public class PlayerCombat : MonoBehaviour
     	
     	PositionWeaponTowardMouse(weapon);
     	
+    	weapon.hitbox.DamageMultiplier = CalculateStrengthDamageMultiplier();
+    	
     	weapon.hitbox.ResetSwing();
     	hitboxCollider.enabled = true;
     	
@@ -130,6 +150,16 @@ public class PlayerCombat : MonoBehaviour
     		
     	bool isHorizontal = Mathf.Abs(direction.x) > Mathf.Abs(direction.y);
     	collider.size = isHorizontal ? weapon.horizontalHitboxSize : weapon.verticalHitboxSize;
+    }
+    
+    private float CalculateStrengthDamageMultiplier()
+    {
+    	PlayerData data = Data;
+    	
+    	if (data == null)
+    		return 1f;
+    		
+    	return 1f + (data.strength * strengthDamageScale);
     }
     
     public void EquipSword(InputAction.CallbackContext context)

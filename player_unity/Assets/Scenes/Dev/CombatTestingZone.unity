@@ -4046,6 +4046,14 @@ PrefabInstance:
       propertyPath: weapons.Array.data[1].horizontalHitboxSize.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1237464289373642005, guid: 5893c8a71401915ca800221763e06948, type: 3}
+      propertyPath: dodgeSpeed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1237464289373642005, guid: 5893c8a71401915ca800221763e06948, type: 3}
+      propertyPath: dodgeDuration
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 3120369102521911134, guid: 5893c8a71401915ca800221763e06948, type: 3}
       propertyPath: m_ActionEvents.Array.size
       value: 17
