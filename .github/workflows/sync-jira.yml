@@ -1,0 +1,58 @@
+name: Sync Jira Tasks
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "0 16 * * *"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync-jira:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Export Jira tasks
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_PROJECT_KEY: ${{ secrets.JIRA_PROJECT_KEY }}
+        run: python scripts/sync_jira.py
+
+      - name: Create Jira sync pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+          branch: jira-sync
+          delete-branch: true
+
+          commit-message: "docs: update Jira task export"
+
+          title: "docs: sync Jira tasks"
+
+          body: |
+            Automated daily Jira task synchronization.
+
+            This pull request updates JIRA_TASKS.md
+            using the current task information from Jira.
+
+          add-paths: |
+            JIRA_TASKS.md
+
+          base: main
