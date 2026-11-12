@@ -27,8 +27,16 @@ public class PlayerCombat : MonoBehaviour
     	public bool useDirectionalHitbox;
     	public Vector2 horizontalHitboxSize = new Vector2(1f, 0.25f);
     	public Vector2 verticalHitboxSize = new Vector2(0.25f, 1f);
+    	 	    
+    	[Header("Ranged (Bow only)")]
+    	public Arrow arrowPrefab;
+    	[Tooltip("Base damage of one arrow before multiplier")]
+    	public int projectileDamage = 2;
+    	public float projectileSpeed = 10f;
+    	[Tooltip("Seconds until arrow that hits nothing disappears")]
+    	public float projectileLifetime = 2f;
+    	public float projectileSpawnDistance = 0.5f;
     }
-    
     
     [SerializeField] private WeaponConfig[] weapons;
     
@@ -107,6 +115,16 @@ public class PlayerCombat : MonoBehaviour
     {
     	isAttacking = true;
     	
+    	if (weapon.type == WeaponType.Bow)
+    	{
+    		FireArrow(weapon);
+    		
+    		yield return new WaitForSeconds(weapon.attackDuration + weapon.attackCooldown);
+    		
+    		isAttacking = false;
+    		yield break;
+    	}
+    	
     	Collider2D hitboxCollider = weapon.hitbox.GetComponent<Collider2D>();
     	
     	PositionWeaponTowardMouse(weapon);
@@ -125,6 +143,39 @@ public class PlayerCombat : MonoBehaviour
     	yield return new WaitForSeconds(weapon.attackCooldown);
     	
     	isAttacking = false;
+    }
+    
+    private void FireArrow(WeaponConfig weapon)
+    {
+    	Vector2 direction = GetAimDirection();
+    	Vector2 spawnPosition = (Vector2)transform.position + direction * weapon.projectileSpawnDistance;
+    	
+    	int damage = Math.Max(1, Mathf.RoundToInt(weapon.projectileDamage * CalculateStrengthDamageMultiplier()));
+    	
+    	Arrow arrow;
+    	if (weapon.arrowPrefab != null)
+    		arrow = Instantiate(weapon.arrowPrefab, spawnPosition, Quaternion.identity);
+    		
+    	else
+    	{
+    		SpriteRenderer playerSprite = GetComponentInChildren<SpriteRenderer>();
+    		int layerId = playerSprite != null ? playerSprite.sortingLayerID : 0;
+    		int order = (playerSprite != null ? playerSprite.sortingOrder : 0) + 1;
+    		arrow = Arrow.CreatePlaceholder(spawnPosition, layerId, order);
+    	}
+    	
+    	arrow.Initialize(direction, damage, weapon.projectileSpeed, weapon.projectileLifetime, transform);
+    }
+    
+    private Vector2 GetAimDirection()
+    {
+    	if (Camera.main == null || Mouse.current == null)
+    		return Vector2.right;
+    		
+    	Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+    	Vector2 direction = mouseWorldPos - (Vector2)transform.position;
+    	
+    	return direction.sqrMagnitude > 0.0001f ? direction.normalized : Vector2.right;
     }
     
     private void PositionWeaponTowardMouse(WeaponConfig weapon)

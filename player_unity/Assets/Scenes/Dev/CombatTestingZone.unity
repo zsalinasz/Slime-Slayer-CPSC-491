@@ -4019,6 +4019,10 @@ PrefabInstance:
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 1021630925281499778, guid: 5893c8a71401915ca800221763e06948, type: 3}
+      propertyPath: weapons.Array.data[2].attackCooldown
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1021630925281499778, guid: 5893c8a71401915ca800221763e06948, type: 3}
       propertyPath: weapons.Array.data[0].hitEffectPrefab
       value: 
       objectReference: {fileID: 131300568008135247, guid: c20b6739cd7d69ed7b22cb5e5ad68971, type: 3}
@@ -4026,6 +4030,18 @@ PrefabInstance:
       propertyPath: weapons.Array.data[1].hitEffectPrefab
       value: 
       objectReference: {fileID: 131300568008135247, guid: c20b6739cd7d69ed7b22cb5e5ad68971, type: 3}
+    - target: {fileID: 1021630925281499778, guid: 5893c8a71401915ca800221763e06948, type: 3}
+      propertyPath: weapons.Array.data[2].projectileSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1021630925281499778, guid: 5893c8a71401915ca800221763e06948, type: 3}
+      propertyPath: weapons.Array.data[2].projectileDamage
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1021630925281499778, guid: 5893c8a71401915ca800221763e06948, type: 3}
+      propertyPath: weapons.Array.data[2].projectileLifetime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1021630925281499778, guid: 5893c8a71401915ca800221763e06948, type: 3}
       propertyPath: weapons.Array.data[1].useDirectionalHitbox
       value: 1
@@ -4044,6 +4060,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1021630925281499778, guid: 5893c8a71401915ca800221763e06948, type: 3}
       propertyPath: weapons.Array.data[1].horizontalHitboxSize.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1021630925281499778, guid: 5893c8a71401915ca800221763e06948, type: 3}
+      propertyPath: weapons.Array.data[2].projectileSpawnDistance
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1237464289373642005, guid: 5893c8a71401915ca800221763e06948, type: 3}
