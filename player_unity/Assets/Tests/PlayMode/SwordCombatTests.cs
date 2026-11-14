@@ -16,11 +16,16 @@ public class SwordCombatTests
     private GameObject hitboxObject;
     private WeaponHitbox weaponHitbox;
     
+    private GameObject dummyHitEffectPrefab;
+    private PlayerCombat.WeaponConfig swordConfig;
+    
     [SetUp]
     public void SetUp()
     {
     	playerDataManagerObject = new GameObject("TestPlayerDataManager");
     	playerDataManager = playerDataManagerObject.AddComponent<PlayerDataManager>();
+    	
+    	dummyHitEffectPrefab = new GameObject("DummyHitEffectPrefab");
     
     	playerObject = new GameObject("TestPlayer");
     	playerObject.SetActive(false);
@@ -40,10 +45,19 @@ public class SwordCombatTests
     	hitboxCollider.size = new Vector2(0.5f, 0.5f);
     	
     	weaponHitbox = hitboxObject.AddComponent<WeaponHitbox>();
-        GameObject dummyPrefab = new GameObject("TestDummyPrefab");
-        weaponHitbox.hitEffectPrefab = dummyPrefab;
+    	weaponHitbox.hitEffectPrefab = dummyHitEffectPrefab;
     	
-    	SetPrivateField(playerCombat, "swordHitbox", weaponHitbox);
+    	swordConfig = new PlayerCombat.WeaponConfig
+    	{
+    		type = WeaponType.Sword,
+    		hitbox = weaponHitbox,
+    		attackDuration = 0.2f,
+    		attackCooldown = 0.4f,
+    		attackDistance = 0.5f,
+    		hitEffectPrefab = dummyHitEffectPrefab
+    	};
+    	
+    	SetPrivateField(playerCombat, "weapons", new PlayerCombat.WeaponConfig[] { swordConfig });
     	
     	playerObject.SetActive(true);
     }
@@ -54,6 +68,9 @@ public class SwordCombatTests
     	if (playerObject != null)
     		Object.Destroy(playerObject);
     		
+    	if (dummyHitEffectPrefab != null)
+    		Object.Destroy(dummyHitEffectPrefab);
+    		
     	if (playerDataManagerObject != null)
     		Object.DestroyImmediate(playerDataManagerObject);
     }
@@ -63,13 +80,6 @@ public class SwordCombatTests
     	FieldInfo field = target.GetType().GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
     	Assert.NotNull(field, $"Expected a private field named '{fieldName}' on {target.GetType().Name}");
     	field.SetValue(target, value);
-    }
-    
-    private static T GetPrivateField<T>(object target, string fieldName)
-    {
-    	FieldInfo field = target.GetType().GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
-    	Assert.NotNull(field, $"Expected a private field named '{fieldName}' on {target.GetType().Name}");
-    	return (T)field.GetValue(target);
     }
     
     private TestDamageable CreateEnemy(Vector2 position)
@@ -123,8 +133,8 @@ public class SwordCombatTests
     [UnityTest]
     public IEnumerator SwordDamage_MatchesConfigValue()
     {
-    	const int expectedDamage = 5;
-    	SetPrivateField(weaponHitbox, "damage", expectedDamage);
+    	const int expectedBaseDamage = 5;
+    	SetPrivateField(weaponHitbox, "damage", expectedBaseDamage);
     	
     	TestDamageable enemy = CreateEnemy(playerObject.transform.position);
     	
@@ -133,7 +143,7 @@ public class SwordCombatTests
     	yield return new WaitForFixedUpdate();
     	yield return new WaitForFixedUpdate();
     	
-    	Assert.AreEqual(expectedDamage, enemy.LastDamageReceived);
+    	Assert.AreEqual(weaponHitbox.Damage, enemy.LastDamageReceived);
     }
     
     [UnityTest]
@@ -174,14 +184,11 @@ public class SwordCombatTests
     
     [UnityTest]
     public IEnumerator AttackState_ReturnsToValidStateAfterFinishing()
-    {
-    	float attackDuration = GetPrivateField<float>(playerCombat, "attackDuration");
-    	float attackCooldown = GetPrivateField<float>(playerCombat, "attackCooldown");
-    	
+    {   	
     	playerCombat.TryAttack();
     	Assert.IsTrue(playerCombat.IsAttacking);
     	
-    	yield return new WaitForSeconds(attackDuration + attackCooldown + 0.1f);
+    	yield return new WaitForSeconds(swordConfig.attackDuration + swordConfig.attackCooldown + 0.1f);
     	
     	Assert.IsFalse(playerCombat.IsAttacking);
     	

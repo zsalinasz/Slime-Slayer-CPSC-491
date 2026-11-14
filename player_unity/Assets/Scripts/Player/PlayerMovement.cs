@@ -56,6 +56,9 @@ public class PlayerMovement : MonoBehaviour
     
     public void Move(InputAction.CallbackContext context)
     {
+    	if (context.performed && playerHealth != null && playerHealth.IsDead)
+    		Debug.Log("Cannot move when dead.");
+    		
     	animator.SetBool("isWalking", true);
     	
     	if (context.canceled) 
@@ -83,8 +86,11 @@ public class PlayerMovement : MonoBehaviour
     		return false;
     		
     	if (playerHealth != null && playerHealth.IsDead)
+    	{
+    		Debug.Log("Cannot dodge when dead.");
     		return false;
-    		
+    	}
+    	
     	PlayerData data = Data;
     	if (data == null || data.currentStamina < dodgeStaminaCost)
     		return false;

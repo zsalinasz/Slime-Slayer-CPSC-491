@@ -71,7 +71,7 @@ public class PlayerHealth : MonoBehaviour
 	// damage from attacking enemies
 	public void TakeDamage(int amount, Vector2 sourcePosition)
 	{
-		if (Data == null || isDead || isInvincible)
+		if (Data == null || isDead || IsInvincible)
 			return;
 			
 		ApplyDamage(amount);
@@ -89,7 +89,7 @@ public class PlayerHealth : MonoBehaviour
 	// damage from status effect or environment
 	public void TakeDamage(int amount)
 	{
-		if (Data == null || isDead || isInvincible)
+		if (Data == null || isDead || IsInvincible)
 			return;
 			
 		ApplyDamage(amount);
@@ -98,6 +98,7 @@ public class PlayerHealth : MonoBehaviour
 	public void ApplyDamage(int amount)
 	{		
 		Data.currentHealth = Mathf.Max(Data.currentHealth - amount, 0);
+		Debug.Log($"Player took {amount} damage. Health: {Data.currentHealth}/{Data.maxHealth}");
 		OnHealthChanged?.Invoke(Data.currentHealth, Data.maxHealth);
 		
 		if (Data.currentHealth <= 0)
