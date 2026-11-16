@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 4163648718190445098}
   - component: {fileID: 8345268347425347882}
   - component: {fileID: 1021630925281499778}
+  - component: {fileID: 6082789580991990383}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -38,6 +39,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2521027999895994956}
+  - {fileID: 7776768401591002184}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8719094351574696977
@@ -232,6 +234,54 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 29db4e26-da2b-49f9-935b-23b62e7d3f5c
     m_ActionName: 'Player/Dodge[/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1021630925281499778}
+        m_TargetAssemblyTypeName: PlayerCombat, SlimeSLayer.Gameplay
+        m_MethodName: EquipSword
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 552b6950-830c-4f50-827e-4d9a3375ec3d
+    m_ActionName: 'Player/EquipSword[/Keyboard/1]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1021630925281499778}
+        m_TargetAssemblyTypeName: PlayerCombat, SlimeSLayer.Gameplay
+        m_MethodName: EquipSpear
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b18628ad-1af5-4bd6-b17e-82849dae934f
+    m_ActionName: 'Player/EquipSpear[/Keyboard/2]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1021630925281499778}
+        m_TargetAssemblyTypeName: PlayerCombat, SlimeSLayer.Gameplay
+        m_MethodName: EquipBow
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 615e8c8d-3f58-4701-8664-dd47c9b0befa
+    m_ActionName: 'Player/EquipBow[/Keyboard/3]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -363,11 +413,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc38faa3b8cc6d89895518b2b889c2a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: SlimeSLayer.Gameplay::PlayerCombat
-  swordHitbox: {fileID: 2118161672561657363}
-  attackDuration: 0.2
-  attackCooldown: 0.4
-  swordDistance: 0.5
-  hitEffectPrefab: {fileID: 131300568008135247, guid: c20b6739cd7d69ed7b22cb5e5ad68971, type: 3}
+  weapons:
+  - type: 0
+    hitbox: {fileID: 2118161672561657363}
+    attackDuration: 0.2
+    attackCooldown: 0.4
+    attackDistance: 0.5
+    hitEffectPrefab: {fileID: 131300568008135247, guid: c20b6739cd7d69ed7b22cb5e5ad68971, type: 3}
+    useDirectionalHitbox: 0
+    horizontalHitboxSize: {x: 0, y: 0}
+    verticalHitboxSize: {x: 0, y: 0}
+    arrowPrefab: {fileID: 0}
+    projectileDamage: 0
+    projectileSpeed: 0
+    projectileLifetime: 0
+    projectileSpawnDistance: 0
+  - type: 1
+    hitbox: {fileID: 2941214333261908396}
+    attackDuration: 0.2
+    attackCooldown: 0.4
+    attackDistance: 0.8
+    hitEffectPrefab: {fileID: 131300568008135247, guid: c20b6739cd7d69ed7b22cb5e5ad68971, type: 3}
+    useDirectionalHitbox: 1
+    horizontalHitboxSize: {x: 2.5, y: 0.5}
+    verticalHitboxSize: {x: 0.5, y: 2.5}
+    arrowPrefab: {fileID: 0}
+    projectileDamage: 0
+    projectileSpeed: 0
+    projectileLifetime: 0
+    projectileSpawnDistance: 0
+  - type: 2
+    hitbox: {fileID: 0}
+    attackDuration: 0
+    attackCooldown: 0.6
+    attackDistance: 0
+    hitEffectPrefab: {fileID: 0}
+    useDirectionalHitbox: 0
+    horizontalHitboxSize: {x: 0, y: 0}
+    verticalHitboxSize: {x: 0, y: 0}
+    arrowPrefab: {fileID: 0}
+    projectileDamage: 2
+    projectileSpeed: 10
+    projectileLifetime: 1
+    projectileSpawnDistance: 0.5
+  strengthDamageScale: 0.05
+--- !u!114 &6082789580991990383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3458514357529335153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3f6c9a5f1b146be686c54616723007b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SlimeSLayer.Gameplay::PlayerHealthBar
+  barSprite: {fileID: 7107526608384918283, guid: e2e2aab1f43cb7f4c8423dfcee233855, type: 3}
+  offset: {x: 0, y: 0.8}
+  barWidth: 1
+  fillTint: {r: 1, g: 1, b: 1, a: 1}
+  emptyTint: {r: 0.25, g: 0.25, b: 0.25, a: 1}
+  sortingOrderOffset: 10
 --- !u!1 &6023926108868370620
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,6 +568,102 @@ MonoBehaviour:
   m_EditorClassIdentifier: SlimeSLayer.Gameplay::WeaponHitbox
   damage: 1
   hitEffectSize: 1
+  hitEffectLifetime: 0.5
+  hitEffectSortingLayer: Player
+  hitEffectPrefab: {fileID: 0}
+--- !u!1 &8074459600428388757
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7776768401591002184}
+  - component: {fileID: 8948197455694810692}
+  - component: {fileID: 2941214333261908396}
+  m_Layer: 0
+  m_Name: SpearHitBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7776768401591002184
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8074459600428388757}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6674692307654782843}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &8948197455694810692
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8074459600428388757}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 2.5, y: 0.5}
+  m_EdgeRadius: 0
+--- !u!114 &2941214333261908396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8074459600428388757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ac2c146ff8ce2b2f9aff136a90a6f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SlimeSLayer.Gameplay::WeaponHitbox
+  damage: 2
+  hitEffectSize: 2
   hitEffectLifetime: 0.5
   hitEffectSortingLayer: Player
   hitEffectPrefab: {fileID: 0}
