@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
@@ -7,25 +8,33 @@ using System.Collections.Generic;
 
 public class DialogueController : MonoBehaviour
 {
+    [Header("Dialogue UI")]
     [SerializeField] public GameObject dialoguePanel;
     [SerializeField] private TMP_Text speakerName;
     [SerializeField] private TMP_Text dialogueText;
     [SerializeField] private TMP_Text continuePrompt;
 
+    [Header("Dialogue Choices")]
     [SerializeField] private GameObject choicesContainer;
-    [SerializeField] private List<Button> choiceButtons;
+
+    [SerializeField]
+    private List<Button> choiceButtons =
+        new List<Button>();
 
     private Action onContinue;
     private bool waitingForContinue;
 
     private void Awake()
     {
-        dialoguePanel.SetActive(false);
+        if (dialoguePanel != null)
+            dialoguePanel.SetActive(false);
     }
 
     private void Update()
     {
-        if (waitingForContinue && Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+        if (waitingForContinue &&
+            Keyboard.current != null &&
+            Keyboard.current.eKey.wasPressedThisFrame)
         {
             waitingForContinue = false;
 
@@ -39,12 +48,7 @@ public class DialogueController : MonoBehaviour
     public void ShowDialogue(
         string speaker,
         string message,
-        List<OptionActionPair> options
-        //string option1,
-        //Action action1,
-        //string option2,
-        //Action action2
-        )
+        List<OptionActionPair> options)
     {
         dialoguePanel.SetActive(true);
 
@@ -55,53 +59,95 @@ public class DialogueController : MonoBehaviour
         continuePrompt.gameObject.SetActive(false);
 
         waitingForContinue = false;
+        onContinue = null;
 
-
-        //ConfigureButton(choiceButton1, option1, action1);
-        //ConfigureButton(choiceButton2, option2, action2);
+        CreateButtons(options);
     }
 
     public void CreateButtons(List<OptionActionPair> options)
     {
-        foreach (OptionActionPair option_action in options)
+        // Remove previously generated buttons
+        foreach (Button button in choiceButtons)
         {
-            CreateChoiceButton(option_action.option, option_action.action);
+            if (button != null)
+            {
+                button.gameObject.SetActive(false);
+                Destroy(button.gameObject);
+            }
         }
 
+        choiceButtons.Clear();
+
+        if (options == null)
+            return;
+
+        foreach (OptionActionPair option in options)
+        {
+            CreateChoiceButton(
+                option.option,
+                option.action
+            );
+        }
     }
 
     private void CreateChoiceButton(
         string label,
         Action action)
     {
-        // Create a blank GameObject for the button frame
-        GameObject buttonObj = new GameObject("ChoiceButton", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button));
+        GameObject buttonObj = new GameObject(
+            "ChoiceButton",
+            typeof(RectTransform),
+            typeof(CanvasRenderer),
+            typeof(Image),
+            typeof(Button)
+        );
 
-        // Parent it to the choices panel
-        GameObject choicesPanel = dialoguePanel.transform.Find("ChoicesPanel").gameObject;
-        buttonObj.transform.SetParent(choicesPanel.transform, false);
+        // Use the assigned choices container
+        buttonObj.transform.SetParent(
+            choicesContainer.transform,
+            false
+        );
 
-        // Set the dimensions and positioning
-        RectTransform rectTransform = buttonObj.GetComponent<RectTransform>();
+        RectTransform rectTransform =
+            buttonObj.GetComponent<RectTransform>();
+
         rectTransform.sizeDelta = new Vector2(250, 50);
 
-        // Configure the text inside the button
-        GameObject textObj = new GameObject("ButtonText", typeof(RectTransform), typeof(TextMeshProUGUI));
-        textObj.transform.SetParent(buttonObj.transform, false);
+        GameObject textObj = new GameObject(
+            "ButtonText",
+            typeof(RectTransform),
+            typeof(TextMeshProUGUI)
+        );
 
-        TextMeshProUGUI textComponent = textObj.GetComponent<TextMeshProUGUI>();
+        textObj.transform.SetParent(
+            buttonObj.transform,
+            false
+        );
+
+        TextMeshProUGUI textComponent =
+            textObj.GetComponent<TextMeshProUGUI>();
+
         textComponent.text = label;
         textComponent.fontSize = 18;
-        textComponent.alignment = TextAlignmentOptions.Center;
+        textComponent.alignment =
+            TextAlignmentOptions.Center;
         textComponent.color = Color.black;
 
-        //Match text size to button size
-        textObj.GetComponent<RectTransform>().sizeDelta = rectTransform.sizeDelta;
+        RectTransform textRect =
+            textObj.GetComponent<RectTransform>();
 
-        // Hook up the click event listener
-        Button choiceButton = buttonObj.GetComponent<Button>();
-        choiceButton.onClick.AddListener(() => action?.Invoke());
-        
+        textRect.anchorMin = Vector2.zero;
+        textRect.anchorMax = Vector2.one;
+        textRect.offsetMin = Vector2.zero;
+        textRect.offsetMax = Vector2.zero;
+
+        Button choiceButton =
+            buttonObj.GetComponent<Button>();
+
+        choiceButton.onClick.AddListener(
+            () => action?.Invoke()
+        );
+
         choiceButtons.Add(choiceButton);
     }
 
@@ -127,6 +173,7 @@ public class DialogueController : MonoBehaviour
     public void CloseDialogue()
     {
         dialoguePanel.SetActive(false);
+
         waitingForContinue = false;
         onContinue = null;
     }
