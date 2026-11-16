@@ -3870,102 +3870,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8babb103951a2ee65a4a3d3c82e46efb, type: 3}
---- !u!1 &1241937150
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1241937151}
-  - component: {fileID: 1241937153}
-  - component: {fileID: 1241937152}
-  m_Layer: 0
-  m_Name: SpearHitBox
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1241937151
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1241937150}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1129656477}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1241937152
+--- !u!114 &1241937152 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 3822253903267433759, guid: 5893c8a71401915ca800221763e06948, type: 3}
+  m_PrefabInstance: {fileID: 1392074221}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1241937150}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ac2c146ff8ce2b2f9aff136a90a6f56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: SlimeSLayer.Gameplay::WeaponHitbox
-  damage: 2
-  hitEffectSize: 2
-  hitEffectLifetime: 0.5
-  hitEffectSortingLayer: Player
-  hitEffectPrefab: {fileID: 0}
---- !u!61 &1241937153
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1241937150}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 2.5, y: 0.5}
-  m_EdgeRadius: 0
 --- !u!1001 &1392074221
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3994,6 +3909,10 @@ PrefabInstance:
       propertyPath: weapons.Array.data[1].hitbox
       value: 
       objectReference: {fileID: 1241937152}
+    - target: {fileID: 1021630925281499778, guid: 5893c8a71401915ca800221763e06948, type: 3}
+      propertyPath: weapons.Array.data[2].arrowPrefab
+      value: 
+      objectReference: {fileID: 2996018408911043122, guid: d68c04501c48e9a3cb36c9b990fcd6c0, type: 3}
     - target: {fileID: 1021630925281499778, guid: 5893c8a71401915ca800221763e06948, type: 3}
       propertyPath: weapons.Array.data[0].attackCooldown
       value: 0.4
@@ -4036,7 +3955,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1021630925281499778, guid: 5893c8a71401915ca800221763e06948, type: 3}
       propertyPath: weapons.Array.data[2].projectileDamage
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1021630925281499778, guid: 5893c8a71401915ca800221763e06948, type: 3}
       propertyPath: weapons.Array.data[2].projectileLifetime
@@ -4272,10 +4191,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 6674692307654782843, guid: 5893c8a71401915ca800221763e06948, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1241937151}
+    m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3458514357529335153, guid: 5893c8a71401915ca800221763e06948, type: 3}
       insertIndex: -1
