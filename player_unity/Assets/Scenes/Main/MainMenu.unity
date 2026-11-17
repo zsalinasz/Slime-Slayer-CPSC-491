@@ -357,6 +357,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1347221487
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1347221488}
+  - component: {fileID: 1347221489}
+  m_Layer: 0
+  m_Name: AudioSettings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1347221488
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347221487}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -114132.66, y: -297893.47, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1347221489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347221487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 026a1f0c9c4bf46d88a31d7d79db0d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SlimeSLayer.Gameplay::VolumeSettings
+  audioMixer: {fileID: 24100000, guid: f096e995c71304c8596e2bdae15ba2e0, type: 2}
+  volumeSlider: {fileID: 7303728647303940272}
 --- !u!1001 &1652451019
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -467,17 +513,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1307379369054572190, guid: ac6857ac5607bc9d69a25c68fb0eb21b, type: 3}
   m_PrefabInstance: {fileID: 7303728647303940271}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2091519529 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3307843734023037465, guid: 87605188c2fae2b498053ad74168a263, type: 3}
-  m_PrefabInstance: {fileID: 1652451019}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e49dc1eca24e4e7a93a8b44f1685e20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: SlimeSLayer.Gameplay::MusicManager
 --- !u!1 &2129599562 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1204906424241897909, guid: ac6857ac5607bc9d69a25c68fb0eb21b, type: 3}
@@ -600,9 +635,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1672521745}
     - target: {fileID: 7467207525304266240, guid: ac6857ac5607bc9d69a25c68fb0eb21b, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7467207525304266240, guid: ac6857ac5607bc9d69a25c68fb0eb21b, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2091519529}
+      objectReference: {fileID: 1347221489}
+    - target: {fileID: 7467207525304266240, guid: ac6857ac5607bc9d69a25c68fb0eb21b, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 7467207525304266240, guid: ac6857ac5607bc9d69a25c68fb0eb21b, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: VolumeSettings, SlimeSLayer.Gameplay
+      objectReference: {fileID: 0}
     - target: {fileID: 8175298228432592282, guid: ac6857ac5607bc9d69a25c68fb0eb21b, type: 3}
       propertyPath: m_Name
       value: canvas_main_menu
@@ -616,6 +663,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac6857ac5607bc9d69a25c68fb0eb21b, type: 3}
+--- !u!114 &7303728647303940272 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7467207525304266240, guid: ac6857ac5607bc9d69a25c68fb0eb21b, type: 3}
+  m_PrefabInstance: {fileID: 7303728647303940271}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -626,3 +684,4 @@ SceneRoots:
   - {fileID: 1672521746}
   - {fileID: 385013854}
   - {fileID: 1652451019}
+  - {fileID: 1347221488}
