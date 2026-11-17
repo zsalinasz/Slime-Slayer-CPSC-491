@@ -60,32 +60,28 @@
 - [ ] [SCRUM-151](https://cpsc491group2.atlassian.net/browse/SCRUM-151) - Update player attack animations — **Assignee:** Moises Munoz
 - [ ] [SCRUM-152](https://cpsc491group2.atlassian.net/browse/SCRUM-152) - Update sword swing animation — **Assignee:** Moises Munoz
 - [ ] [SCRUM-153](https://cpsc491group2.atlassian.net/browse/SCRUM-153) - Update spear thrust animation — **Assignee:** Moises Munoz
-- [ ] [SCRUM-154](https://cpsc491group2.atlassian.net/browse/SCRUM-154) - Update bow shooting animation — **Assignee:** Moises Munoz
 
 ## In Progress
 
 - [ ] [SCRUM-2](https://cpsc491group2.atlassian.net/browse/SCRUM-2) - Enemy and AI Developer — **Assignee:** Ossama Mostafa
 - [ ] [SCRUM-3](https://cpsc491group2.atlassian.net/browse/SCRUM-3) - Task 3 — **Assignee:** Unassigned
-- [ ] [SCRUM-6](https://cpsc491group2.atlassian.net/browse/SCRUM-6) - World, Quest & NPC Developer — **Assignee:** Zeus Salinas
+- [ ] [SCRUM-6](https://cpsc491group2.atlassian.net/browse/SCRUM-6) - Create basis for Quest acceptance — **Assignee:** Zeus Salinas
 - [ ] [SCRUM-13](https://cpsc491group2.atlassian.net/browse/SCRUM-13) - Create a functioning world that the character can traverse — **Assignee:** Unassigned
 - [ ] [SCRUM-27](https://cpsc491group2.atlassian.net/browse/SCRUM-27) - Support multiple slime types without duplicating large amounts of code. — **Assignee:** Unassigned
 - [ ] [SCRUM-28](https://cpsc491group2.atlassian.net/browse/SCRUM-28) - More Complex Enemy Behavior — **Assignee:** Unassigned
 - [ ] [SCRUM-59](https://cpsc491group2.atlassian.net/browse/SCRUM-59) - Player can manage inventory — **Assignee:** Unassigned
 - [ ] [SCRUM-66](https://cpsc491group2.atlassian.net/browse/SCRUM-66) - In-game menu — **Assignee:** Unassigned
 - [ ] [SCRUM-68](https://cpsc491group2.atlassian.net/browse/SCRUM-68) - Create In-Game Menu front-end — **Assignee:** Ossama Mostafa
-- [ ] [SCRUM-69](https://cpsc491group2.atlassian.net/browse/SCRUM-69) - Create Combat System — **Assignee:** Moises Munoz
-- [ ] [SCRUM-72](https://cpsc491group2.atlassian.net/browse/SCRUM-72) - Bow combat system — **Assignee:** Moises Munoz
 - [ ] [SCRUM-73](https://cpsc491group2.atlassian.net/browse/SCRUM-73) - Implement Player Information Data Model — **Assignee:** Ossama Mostafa
 - [ ] [SCRUM-77](https://cpsc491group2.atlassian.net/browse/SCRUM-77) - TESTING | Create automated combat scripts to test that combat work correctly — **Assignee:** Moises Munoz
 - [ ] [SCRUM-83](https://cpsc491group2.atlassian.net/browse/SCRUM-83) - TESTING | Perform manual Combat Tests to ensure combat feels smooth and responsive — **Assignee:** Moises Munoz
 - [ ] [SCRUM-108](https://cpsc491group2.atlassian.net/browse/SCRUM-108) - TESTING | Automate Unity Integration Smoke Tests — **Assignee:** Alec
 - [ ] [SCRUM-109](https://cpsc491group2.atlassian.net/browse/SCRUM-109) - TESTING | Run Unity Tests and Preserve Results in CI — **Assignee:** Alec
+- [ ] [SCRUM-154](https://cpsc491group2.atlassian.net/browse/SCRUM-154) - Update bow shooting animation — **Assignee:** Moises Munoz
 
 ## In Review
 
-- [ ] [SCRUM-86](https://cpsc491group2.atlassian.net/browse/SCRUM-86) - Manual test for dodge mechanic — **Assignee:** Moises Munoz
 - [ ] [SCRUM-90](https://cpsc491group2.atlassian.net/browse/SCRUM-90) - Manual test for Spear combat — **Assignee:** Moises Munoz
-- [ ] [SCRUM-119](https://cpsc491group2.atlassian.net/browse/SCRUM-119) - [UI] Implement Health Bar — **Assignee:** Moises Munoz
 
 ## Done
 
@@ -113,3 +109,7 @@
 - [x] [SCRUM-45](https://cpsc491group2.atlassian.net/browse/SCRUM-45) - CI/CD: Integrate Enemy/AI tests with CI — **Assignee:** Ossama Mostafa
 - [x] [SCRUM-46](https://cpsc491group2.atlassian.net/browse/SCRUM-46) - CI/CD: Document Enemy/AI test coverage and gaps — **Assignee:** Ossama Mostafa
 - [x] [SCRUM-47](https://cpsc491group2.atlassian.net/browse/SCRUM-47) - CI/CD: SET UP AUTOMATED UNITY BUILD ON MERGE TO MAIN — **Assignee:** Ossama Mostafa
+- [x] [SCRUM-48](https://cpsc491group2.atlassian.net/browse/SCRUM-48) - CI/CD: Implement automated build versionaing — **Assignee:** Ossama Mostafa
+- [x] [SCRUM-50](https://cpsc491group2.atlassian.net/browse/SCRUM-50) - CI/CD Implement Player Movement and Collision Checks — **Assignee:** Moises Munoz
+- [x] [SCRUM-51](https://cpsc491group2.atlassian.net/browse/SCRUM-51) - CI/CD Implement Player Health Tests — **Assignee:** Moises Munoz
+- [x] [SCRUM-52](https://cpsc491group2.atlassian.net/browse/SCRUM-52) - CI/CD Implement Player Death Tests — **Assignee:** Moises Munoz
