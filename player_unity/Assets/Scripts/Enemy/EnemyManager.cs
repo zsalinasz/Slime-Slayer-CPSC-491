@@ -1,146 +1,148 @@
 using UnityEngine;
-using System;
 
 public class EnemyManager : MonoBehaviour
 {
+    public static EnemyManager Instance { get; private set; }
 
-    public static EnemyManager Instance {get; private set;}
-
-
+    [Header("Spawn configuration")]
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private Transform spawnPoint_seed;
-    [SerializeField] private Transform[] spawnPoints;
+    [SerializeField, Min(1)] public int num_enemies = 4;
+    [SerializeField, Min(0f)] private float spawnDistance = 3f;
+    [SerializeField] public bool spawn_near_player;
+
+    // Kept public for compatibility with existing scripts.
     public bool[] enemyDead;
     public GameObject[] enemies;
-
-    private GameObject playerObject;
-
-    int current_enemy_idx = 0;
-    public int num_enemies = 4; //hard-coded to 4 for now
-    float spawnDistance = 3;
-    [SerializeField] public bool spawn_near_player;
+    [SerializeField] private Transform[] spawnPoints;
 
     private void Awake()
     {
-	    if (Instance != null && Instance != this)
-	    {
-	        Destroy(gameObject);
-	        return;
-	    }
-
-	    Instance = this;
-	    DontDestroyOnLoad(gameObject);
-    }
-
-    public void Start()
-    {
-	    Debug.Log("Starting EnemyManager");
-        
-        enemyDead = new bool[4];
-        spawnPoints = new Transform[4];
-        enemies = new GameObject[4];
-
-        for (int i = 0; i < 4; i++)
+        if (Instance != null && Instance != this)
         {
-            enemyDead[i] = true;
-            spawnPoints[i] = new GameObject($"EnemySpawnPoint{i+1}").transform;
+            Destroy(gameObject);
+            return;
         }
 
-        spawnPoint_seed = new GameObject("EnemySpawnPoint").transform;
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
-    	playerObject = GameObject.FindGameObjectWithTag("Player");
-        //If the option to have enemies spawn around the player is checked off, use the player's location to set the spawn seed
+    private void Start()
+    {
+        enemyDead = new bool[num_enemies];
+        enemies = new GameObject[num_enemies];
+        spawnPoints = new Transform[num_enemies];
+
+        for (int i = 0; i < num_enemies; i++)
+        {
+            enemyDead[i] = true;
+            GameObject point = new GameObject($"EnemySpawnPoint{i + 1}");
+            point.transform.SetParent(transform);
+            spawnPoints[i] = point.transform;
+        }
+
+        if (spawnPoint_seed == null)
+        {
+            GameObject seed = new GameObject("EnemySpawnPointSeed");
+            seed.transform.SetParent(transform);
+            spawnPoint_seed = seed.transform;
+        }
+
+        SetInitialSpawnSeed();
+        RecalculateSpawnPoints();
+        HandleSpawn();
+    }
+
+    private void Update()
+    {
+        HandleSpawn();
+    }
+
+    private void SetInitialSpawnSeed()
+    {
         if (spawn_near_player)
         {
-	        if (playerObject != null)
-	        {
-	            Vector3 pos = playerObject.transform.position;
-	            pos.x = pos.x - 5.0f;
-	            spawnPoint_seed.position = pos;
-	            Debug.Log(@$"Found player, setting spawnPoint to player position.
-                            Player Position: ({pos.x}, {pos.y})");
-                //Set respawn point based on Player's transform.
-
-	        }
-	        else
-	        {
-	            Debug.Log("Didn't find player, defaulting to 0.");
-	            //Default to (0,0)
-	            spawnPoint_seed.position = new Vector3(0, 0, 0);
-	        }
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                spawnPoint_seed.position = player.transform.position + Vector3.left * 5f;
+                return;
+            }
+            Debug.LogWarning("EnemyManager: Player not found; using world origin for spawn seed.", this);
         }
         else
         {
-            //If not, use enemy_spawn_seed game object
-            spawnPoint_seed.position = GameObject.Find("enemy_spawn_seed").transform.position;
-        }
-        //Initialize initial spawn points based on the seed
-
-        for (int i = 0; i < 4; i++)
-        {
-            float px = spawnPoint_seed.position.x;
-            float py = spawnPoint_seed.position.y;
-            float pz = spawnPoint_seed.position.z;
-
-            //Set point about circle of radius, spawnDistance, on period of pi/2
-            px += spawnDistance * (float)Math.Cos(i*3.14/2);
-            py += spawnDistance * (float)Math.Sin(i*3.14/2);
-
-            spawnPoints[i].position = new Vector3((float)px, (float)py, (float)pz);
+            GameObject seedObject = GameObject.Find("enemy_spawn_seed");
+            if (seedObject != null)
+            {
+                spawnPoint_seed.position = seedObject.transform.position;
+                return;
+            }
+            Debug.LogWarning("EnemyManager: enemy_spawn_seed not found; using world origin.", this);
         }
 
-        HandleSpawn();
-
-    }
-
-    public void Update()
-    {
-        HandleSpawn();
+        spawnPoint_seed.position = Vector3.zero;
     }
 
     public void RecalculateSpawnPoints()
     {
-        //Initialize spawn points based on the seed
-        //This only needs to be called when the spawnPoint_seed changes
+        if (spawnPoint_seed == null || spawnPoints == null)
+            return;
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < spawnPoints.Length; i++)
         {
-            float px = spawnPoint_seed.position.x;
-            float py = spawnPoint_seed.position.y;
-            float pz = spawnPoint_seed.position.z;
-
-            //Set point about circle of radius, spawnDistance, on period of pi/2
-            px += spawnDistance * (float)Math.Cos(i*3.14/2);
-            py += spawnDistance * (float)Math.Sin(i*3.14/2);
-
-            Vector3 pos;
-            pos.x = px;
-            pos.y = py;
-            pos.z = pz;
-
-            spawnPoints[i].position = pos;
-
+            float angle = i * Mathf.PI * 2f / spawnPoints.Length;
+            Vector3 offset = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f) * spawnDistance;
+            spawnPoints[i].position = spawnPoint_seed.position + offset;
         }
-    
     }
 
     public void HandleSpawn()
     {
-        for (int i = 0; i < 4; i++)
+        if (enemyPrefab == null || enemyDead == null || enemies == null)
+            return;
+
+        for (int i = 0; i < enemyDead.Length; i++)
         {
-            if (enemyDead[i])
-            {
-                enemies[i] = SpawnEnemy(spawnPoints[i]);
-                enemies[i].GetComponent<EnemyHealth>().enemy_idx = (current_enemy_idx++)%4;
-                enemyDead[i] = false;
-            }
+            if (!enemyDead[i])
+                continue;
+
+            GameObject enemy = SpawnEnemy(spawnPoints[i]);
+            if (enemy == null)
+                continue;
+
+            enemies[i] = enemy;
+            EnemyHealth health = enemy.GetComponent<EnemyHealth>();
+            if (health != null)
+                health.enemy_idx = i; // Always match the actual spawn slot.
+            else
+                Debug.LogWarning("Enemy prefab is missing EnemyHealth.", enemy);
+
+            enemyDead[i] = false;
         }
+    }
+
+    public void NotifyEnemyDied(int index)
+    {
+        if (enemyDead == null || index < 0 || index >= enemyDead.Length)
+            return;
+
+        enemyDead[index] = true;
+        enemies[index] = null;
     }
 
     public GameObject SpawnEnemy(Transform spawnPoint)
     {
-        Debug.Log("SpawnEnemy called");
+        if (enemyPrefab == null || spawnPoint == null)
+            return null;
+
         return Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
     }
-    
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
 }
