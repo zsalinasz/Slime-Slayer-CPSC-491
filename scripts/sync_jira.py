@@ -85,8 +85,10 @@ for status, issues in statuses.items():
 
     lines.append("")
 
+os.makedirs("qa_framework", exist_ok=True)
+
 with open(
-    "JIRA_TASKS.md",
+    "qa_framework/JIRA_TASKS.md",
     "w",
     encoding="utf-8"
 ) as file:
