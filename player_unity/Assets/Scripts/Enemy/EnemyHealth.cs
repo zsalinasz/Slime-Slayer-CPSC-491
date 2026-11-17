@@ -2,76 +2,59 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour, IsDamageable
 {
-
-    [SerializeField] private int health = 100;
+    [SerializeField, Min(1)] private int health = 100;
     [SerializeField] private GameObject deathEffectPrefab;
-	[SerializeField] private GameObject hitEffectPrefab;
+    [SerializeField] private GameObject hitEffectPrefab;
 
+    // Kept public for compatibility with existing code.
     public int enemy_idx = -1;
-	
-    bool hasManagerInstance = false;
+
     private EnemyAIController controllerInstance;
+    private bool isDead;
 
     private void Awake()
     {
-	//Since the EnemyAIController is on the same GameObject as this EnemyHealth script, this line will search the GameObject (i.e. the current instance of the enemy prefab) and save the specific link we need to communicate action between the enemy and its controller.
-	controllerInstance = GetComponent<EnemyAIController>();
-    }
-
-    void Start()
-    {
-	if (EnemyManager.Instance == null)
-	{
-	    Debug.LogError("EnemyManager doesn't exist.");
-	}
-	else
-	{
-            hasManagerInstance = true;
-	}
+        controllerInstance = GetComponent<EnemyAIController>();
     }
 
     public void TakeDamage(int damage)
     {
+        if (isDead || damage <= 0)
+            return;
 
-	if (controllerInstance != null)
-	{
-	    //Let the controller know Enemy has been hit.
-	    //Possibly in future, we can communicate more about the severity of the hit, to further mediate behavior.
-	    //Also, regardless of how complex hit reactions get, I really think this line should be replaced with some kind of function call to the controller instead.
-	    controllerInstance.tookHit = true;
-	}
+        health = Mathf.Max(0, health - damage);
+        Debug.Log($"Enemy took {damage} damage. Health: {health}", this);
 
-    health -= damage;
+        if (hitEffectPrefab != null)
+            Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
 
-	Debug.Log($"Enemy took {damage} damage. Health: {health}");
-
-    if (hitEffectPrefab != null)
-    {
-        Instantiate(
-            hitEffectPrefab,
-            transform.position,
-            Quaternion.identity
-        );
-    }
-
-	if (health <= 0)
-	{
+        if (health == 0)
+        {
             Die();
-	}
+            return;
+        }
 
+        // Notify AI via a method instead of modifying its internal state flag.
+        if (controllerInstance != null)
+            controllerInstance.NotifyHit();
     }
+
     private void Die()
     {
-        Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+        if (isDead)
+            return;
+
+        isDead = true;
+        if (controllerInstance != null)
+            controllerInstance.NotifyDeath();
+
+        if (deathEffectPrefab != null)
+            Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+
+        EnemyManager manager = EnemyManager.Instance;
+        if (manager != null)
+            manager.NotifyEnemyDied(enemy_idx);
 
         Destroy(gameObject);
-	    if (hasManagerInstance)
-	    {
-            if (enemy_idx >= 0 && enemy_idx < EnemyManager.Instance.num_enemies)
-	        {
-                EnemyManager.Instance.enemyDead[enemy_idx] = true;
-            }
-	    }
     }
-    
 }

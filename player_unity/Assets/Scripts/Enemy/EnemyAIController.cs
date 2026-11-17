@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 
 public enum AIState
 {
@@ -12,351 +11,254 @@ public enum AIState
     Dead
 }
 
+[RequireComponent(typeof(EnemyMovement))]
 public class EnemyAIController : MonoBehaviour
 {
-    //Giving enemy controller a direct reference to player position (transform). Might change in the future.
+    [Header("Targets and ranges")]
     [SerializeField] private Transform player;
-    [SerializeField] private float detectionRange = 5f;
-    [SerializeField] private float attackRange = 2.5f;
+    [SerializeField, Min(0f)] private float detectionRange = 5f;
+    [SerializeField, Min(0f)] private float attackRange = 2.5f;
 
-    [SerializeField] private Vector3 unit_velocity;
-    [SerializeField] private float moveSpeed = 2.0f;
+    [Header("Movement")]
+    [SerializeField, Min(0f)] private float moveSpeed = 2f;
+    [SerializeField, Min(0f)] private float engageMoveSpeed = 7f;
+    [SerializeField, Min(0f)] private float moveDistance = 5f;
+    [SerializeField] private Vector3 unit_velocity; // Direction only; kept for Inspector compatibility.
+
+    [Header("Engagement")]
+    [SerializeField, Min(0f)] private float engagementDuration = 2f;
+    [SerializeField, Range(0f, 89f)] private float jaggedAngle = 60f;
+    [SerializeField, Min(0.01f)] private float jaggedSwitchInterval = 0.45f;
+
+    [Header("Hit reaction")]
+    [SerializeField, Min(0f)] private float knockbackSpeedMultiplier = 3f;
+    [SerializeField, Min(0f)] private float hitReactionDuration = 0.12f;
+
+    [Header("State and visuals")]
     [SerializeField] private AIState currentState = AIState.Idle;
-
     [SerializeField] private EnemyAnimationController animationController;
 
-
-
+    private EnemyMovement movement;
     private SpriteRenderer spriteRenderer;
+    private Vector3 patrolStartPosition;
+    private int patrolDirection = 1;
+    private float engageElapsed;
+    private float hitElapsed;
+    private bool engagementFinished;
+    private Vector3 knockbackDirection;
+    private float currentMoveSpeed;
 
-    private Vector3 startPosition;
-    private int direction = 1;
-    private float patrolDistance = 0f;
-    [SerializeField] private float moveDistance = 5.0f;
-    private bool turn = false;
+    public AIState CurrentState => currentState;
 
-    //Use before referencing the manager to ensure no run-time errors.
-    bool hasManagerInstance = false;
-    //A simple predicate to guide state transitions.
-    public bool tookHit = false;
-    int knockBackTicks = 0;
-
-    public bool beginEngage = false;
-    int engagementTicks = 0;
-
-    //Jagged Approach Variables
-    float jaggedOffset = 5.0f;
-    float jaggedPosition = 0.0f;
-    int jaggedDirection = 1;
-    float alpha = 60.0f;
+    private void Awake()
+    {
+        movement = GetComponent<EnemyMovement>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (animationController == null)
+            animationController = GetComponent<EnemyAnimationController>();
+    }
 
     private void Start()
     {
-	    unit_velocity = Vector3.zero;
-        startPosition = transform.position;
-	    spriteRenderer = GetComponent<SpriteRenderer>();
-	    if (player == null)
-	            player = GameObject.FindGameObjectWithTag("Player").transform;
-	    if (EnemyManager.Instance == null)
-	    {
-                Debug.Log("EnemyManager doesn't exist.");
-	    }
-	    else
-	    {
-	        hasManagerInstance = true;
-	    }
+        patrolStartPosition = transform.position;
+        if (player == null)
+        {
+            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+            if (playerObject != null)
+                player = playerObject.transform;
+        }
+
+        if (player == null)
+            Debug.LogWarning("EnemyAIController: no Player target found.", this);
     }
 
     private void Update()
     {
+        // Each state chooses a fresh direction: no stale velocity leaks into other states.
+        unit_velocity = Vector3.zero;
+        currentMoveSpeed = moveSpeed;
+
+        if (currentState != AIState.Dead)
+        {
+            EvaluateState(player == null ? float.PositiveInfinity : calcDistanceToPlayer(player));
+            HandleCurrentState();
+        }
+
+        movement.Move(unit_velocity, currentMoveSpeed);
+        if (animationController != null)
+            animationController.UpdateMovement(movement.Velocity);
         UpdateColor();
-
-	    float distanceToPlayer = calcDistanceToPlayer(player); 
-	    EvaluateState(distanceToPlayer);
-	    HandleCurrentState();
-	    HandleMovement();
     }
 
-    public AIState getCurrentState()
-    {
-        return currentState;
-    }
-    public void setPlayerTransform(Transform playerTransform)
-    {
-        player = playerTransform;
-    }
+    // Retained for existing callers that use the original method names.
+    public AIState getCurrentState() => currentState;
+    public void setPlayerTransform(Transform playerTransform) => player = playerTransform;
 
     public float calcDistanceToPlayer(Transform playerTransform)
     {
+        if (playerTransform == null)
+            return float.PositiveInfinity;
         return Vector2.Distance(transform.position, playerTransform.position);
+    }
+
+    public void NotifyHit()
+    {
+        if (currentState == AIState.Dead)
+            return;
+
+        hitElapsed = 0f;
+        knockbackDirection = player != null
+            ? (transform.position - player.position).normalized
+            : Vector3.zero;
+        currentState = AIState.HitReaction;
+    }
+
+    public void NotifyDeath()
+    {
+        currentState = AIState.Dead;
+        movement.Stop();
+        unit_velocity = Vector3.zero;
     }
 
     public void EvaluateState(float distanceToPlayer)
     {
-        
-        if (tookHit)
-	    {
-	        currentState = AIState.HitReaction;
-	        //Return before evaluating the rest because taking a hit supercedes other concerns.
-	        return;
-	    }
+        // Transient states take priority over distance-based transitions.
+        if (currentState == AIState.Dead || currentState == AIState.HitReaction || currentState == AIState.Recovery)
+            return;
 
-	    if (distanceToPlayer < detectionRange)
-	    {
-	        //currentState = AIState.Chase;
-	        
-	        //The enemy detects the player.
-	        //First, we find out if it is not currently chasing(aka charging) the player and hasn't started engagement yet.
-	        if (!beginEngage && currentState != AIState.Chase)
-	        {
-	    	//If so, we begin engagement and note that with a flag.
-	    	beginEngage = true;
-	    	currentState = AIState.Engage;
-	        }
-	        else if (currentState != AIState.Chase)
-	        {
-	    	//If it has begun engagement, we check using engagementTicks whether it should still be in engagement mode. Here the enemy will be in engagement for 100 ticks.
-	    	if (engagementTicks < 10000)
-	    	{
-	    	    //If enemy is still engaged, maintain currentState in AIState.Engage
-	                currentState = AIState.Engage;
-	    	    engagementTicks++;
-	    	}
-	    	else
-	    	{
-	    	    //If the enemy has completed engagement, reset the engagement state variables and set the AI state to chase.
-	                engagementTicks = 0;
-	    	    beginEngage = false;
-	    	    currentState = AIState.Chase;
-	    	}
-	        }
-	        else if (currentState == AIState.Chase)
-	        {
-	    	//If the AI is in chase mode, let the states handler process the action. No state variables need to be adjusted here at this time.
-	        }
+        if (distanceToPlayer >= detectionRange)
+        {
+            currentState = AIState.Idle;
+            ResetEngagement();
+            return;
+        }
 
+        if (distanceToPlayer < attackRange)
+        {
+            currentState = AIState.Attack;
+            return;
+        }
 
+        if (engagementFinished)
+        {
+            currentState = AIState.Chase;
+            return;
+        }
 
-	        if (distanceToPlayer < attackRange)
-	        {
-	            currentState = AIState.Attack;
-	        }
-	    }
-	    else
-	    {
-	        currentState = AIState.Idle;
-	    }
+        currentState = AIState.Engage;
     }
 
     public void HandleCurrentState()
     {
-         
-	switch (currentState)
-	{
-	    case AIState.Idle:
-		    HandleIdle();
-		    break;
-
-	    case AIState.Chase:
-		    HandleChase();
-		    break;
-	    case AIState.Engage:
-		    HandleEngage();
-		    break;
-
-	    case AIState.Attack:
-		    HandleAttack();
-		    break;
-
-	    case AIState.Recovery:
-		    HandleRecovery();
-		    break;
-
-	    case AIState.HitReaction:
-		    HandleHitReaction();
-		    break;
-
-	    case AIState.Dead:
-		    HandleDead();
-		    break;
-	}
+        switch (currentState)
+        {
+            case AIState.Idle:
+                HandleIdle();
+                break;
+            case AIState.Engage:
+                HandleEngage();
+                break;
+            case AIState.Chase:
+                HandleChase();
+                break;
+            case AIState.Attack:
+                HandleAttack();
+                break;
+            case AIState.Recovery:
+                HandleRecovery();
+                break;
+            case AIState.HitReaction:
+                HandleHitReaction();
+                break;
+            case AIState.Dead:
+                HandleDead();
+                break;
+        }
     }
 
     private void HandleIdle()
     {
-        MoveBackAndForth();
+        // Patrol uses an anchor at each turn, preserving the original back-and-forth behavior.
+        if (Vector2.Distance(transform.position, patrolStartPosition) >= moveDistance)
+        {
+            patrolDirection *= -1;
+            patrolStartPosition = transform.position;
+        }
+        unit_velocity = Vector3.right * patrolDirection;
     }
 
     private void HandleChase()
     {
-        MoveTowardPlayer();
+        if (player != null)
+            unit_velocity = (player.position - transform.position).normalized;
     }
 
     private void HandleEngage()
     {
-    	//rotation_methodB();
-	    moveSpeed = 7;
-	    JaggedApproach();
-    }
+        if (player == null)
+            return;
 
+        currentMoveSpeed = engageMoveSpeed;
+        engageElapsed += Time.deltaTime;
+
+        // Alternate a rotated approach direction every interval, rather than
+        // using a counter that never changes.
+        int side = Mathf.FloorToInt(engageElapsed / jaggedSwitchInterval) % 2 == 0 ? 1 : -1;
+        Vector3 towardPlayer = player.position - transform.position;
+        unit_velocity = Quaternion.Euler(0f, 0f, side * jaggedAngle) * towardPlayer.normalized;
+
+        if (engageElapsed >= engagementDuration)
+        {
+            engagementFinished = true;
+            currentState = AIState.Chase;
+        }
+    }
 
     private void HandleAttack()
     {
+        // Attack execution remains a placeholder for the existing combat integration.
+        // The enemy now stops instead of drifting at its previous velocity.
     }
 
     private void HandleRecovery()
     {
+        // Reserved for an attack recovery mechanic.
     }
 
     private void HandleHitReaction()
-    {	
-	Vector2 vecDirection = -1*(player.position - transform.position).normalized;
-
-        transform.position += (Vector3)(vecDirection * 3*moveSpeed * Time.deltaTime);
-	if (knockBackTicks < 5)
-	{
-	    knockBackTicks++;
-	}
-	else
-	{
-            knockBackTicks = 0;
-	    tookHit = false;
-	}
+    {
+        currentMoveSpeed = moveSpeed * knockbackSpeedMultiplier;
+        unit_velocity = knockbackDirection;
+        hitElapsed += Time.deltaTime;
+        if (hitElapsed >= hitReactionDuration)
+            currentState = AIState.Idle; // EvaluateState will select the next combat state on the next frame.
     }
 
     private void HandleDead()
     {
+        // EnemyHealth handles the death effect, destruction, and manager notification.
     }
 
-    private void MoveBackAndForth()
+    private void ResetEngagement()
     {
-//        transform.position +=
-//            Vector3.right * direction * moveSpeed * Time.deltaTime;
-//
-
-	if (unit_velocity == Vector3.zero)
-	{
-            unit_velocity = Vector3.right;
-	}
-
-	patrolDistance = Math.Abs((transform.position - startPosition).magnitude);
-	turn = patrolDistance > moveDistance;
-	if (turn)
-	{
-            patrolDistance = 0;
-	    direction *= -1;
-	    startPosition = transform.position;
-            unit_velocity *= direction;
-	}
-
-
+        engageElapsed = 0f;
+        engagementFinished = false;
     }
-    private void rotation_methodA()
-    {
-        //Attempting to use matrix rotation.
-	    Vector3 test_vec = (transform.position - player.position);
-	    //Limiting rotation
-	    float maxRotation = 5.0f;
-	    float currentRotation = (float)engagementTicks % maxRotation;
-    	test_vec = Quaternion.Euler(0, 0, currentRotation) * test_vec;
-	    transform.position = test_vec;
-    	Debug.Log($"currentRotation: {currentRotation}");
-    }
-    private void rotation_methodB()
-    {
-	    //Using a circle around the player as the movement curve, we use sin and cos functions to calculate the current (ideal) location of the enemy based on how long it's been in the Engage state (measured by engagementTicks)
-    	float engagementDistance = 3.0f;
-	    float dampener = 16.0f;
-    	double x = player.position.x + engagementDistance * Math.Cos(engagementTicks / dampener);
-	    double y = player.position.y + engagementDistance * Math.Sin(engagementTicks / dampener);
-
-        //Once the ideal x,y coordinates are calculated, we set the enemy's current transform.position to those x and way (by first calculated the difference between the enemy's current pos to the correct pos and then subtracting it back in.)
-        Vector3 diff = transform.position;
-    	diff.x -= (float)x;
-	    diff.y -= (float)y;
-
-    	unit_velocity = -1*diff;
-	    unit_velocity = unit_velocity.normalized;
-
-    }
-
-    private void JaggedApproach()
-    {
-    	Vector3 vec_to_player = player.position - transform.position;
-	    unit_velocity = jaggedDirection * (Quaternion.Euler(0,0,alpha) * vec_to_player).normalized;
-    	if (jaggedPosition >= jaggedOffset)
-	    {
-	    jaggedDirection *= -1;
-	    jaggedPosition = 0;
-    	}
-	
-    }
-
-
-
-    private void MoveTowardPlayer()
-    {
-//        private int dx = 0, dy = 0;
-//	dx = player.position.x - transform.position.x;
-//	dy = player.positiony - transform.position.y;
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-	Vector2 vecDirection = (player.position - transform.position).normalized;
-
-//        transform.position += (Vector3)(vecDirection * moveSpeed * Time.deltaTime);
-        unit_velocity = vecDirection;
-
-    }
-
-    private void MoveAwayFromPlayer()
-    {
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-	Vector2 vecDirection = (player.position - transform.position).normalized;
-
-        transform.position += (Vector3)(vecDirection * -1 * moveSpeed * Time.deltaTime);
-	
-    }
-
-    private void HandleMovement()
-    {
-	    transform.position += (unit_velocity * moveSpeed * Time.deltaTime);
-        if (animationController)
-        {
-            animationController.UpdateMovement(unit_velocity);
-        }
-    }
-
 
     private void UpdateColor()
     {
+        if (spriteRenderer == null)
+            return;
+
         switch (currentState)
         {
-        case AIState.Idle:
-            spriteRenderer.color = Color.white;
-            break;
-
-	case AIState.Engage:
-	    spriteRenderer.color = Color.cyan;
-	    break;
-
-        case AIState.Chase:
-            spriteRenderer.color = Color.yellow;
-            break;
-
-        case AIState.Attack:
-            spriteRenderer.color = Color.red;
-            break;
-
-        case AIState.Recovery:
-            spriteRenderer.color = Color.blue;
-            break;
-
-        case AIState.HitReaction:
-            spriteRenderer.color = Color.magenta;
-            break;
-
-        case AIState.Dead:
-            spriteRenderer.color = Color.gray;
-            break;
+            case AIState.Idle: spriteRenderer.color = Color.white; break;
+            case AIState.Engage: spriteRenderer.color = Color.cyan; break;
+            case AIState.Chase: spriteRenderer.color = Color.yellow; break;
+            case AIState.Attack: spriteRenderer.color = Color.red; break;
+            case AIState.Recovery: spriteRenderer.color = Color.blue; break;
+            case AIState.HitReaction: spriteRenderer.color = Color.magenta; break;
+            case AIState.Dead: spriteRenderer.color = Color.gray; break;
         }
     }
 }
