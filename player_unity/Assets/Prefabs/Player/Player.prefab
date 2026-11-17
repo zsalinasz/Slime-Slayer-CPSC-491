@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4163648718190445098}
   - component: {fileID: 8345268347425347882}
   - component: {fileID: 1021630925281499778}
-  - component: {fileID: 6082789580991990383}
+  - component: {fileID: 6917301077828664817}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -39,7 +39,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2521027999895994956}
-  - {fileID: 7776768401591002184}
+  - {fileID: 544479297031860466}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8719094351574696977
@@ -429,7 +429,7 @@ MonoBehaviour:
     projectileLifetime: 0
     projectileSpawnDistance: 0
   - type: 1
-    hitbox: {fileID: 2941214333261908396}
+    hitbox: {fileID: 3822253903267433759}
     attackDuration: 0.2
     attackCooldown: 0.4
     attackDistance: 0.8
@@ -451,13 +451,13 @@ MonoBehaviour:
     useDirectionalHitbox: 0
     horizontalHitboxSize: {x: 0, y: 0}
     verticalHitboxSize: {x: 0, y: 0}
-    arrowPrefab: {fileID: 0}
-    projectileDamage: 2
+    arrowPrefab: {fileID: 2996018408911043122, guid: d68c04501c48e9a3cb36c9b990fcd6c0, type: 3}
+    projectileDamage: 1
     projectileSpeed: 10
     projectileLifetime: 1
     projectileSpawnDistance: 0.5
   strengthDamageScale: 0.05
---- !u!114 &6082789580991990383
+--- !u!114 &6917301077828664817
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -571,7 +571,7 @@ MonoBehaviour:
   hitEffectLifetime: 0.5
   hitEffectSortingLayer: Player
   hitEffectPrefab: {fileID: 0}
---- !u!1 &8074459600428388757
+--- !u!1 &8398136295478137383
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -579,9 +579,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7776768401591002184}
-  - component: {fileID: 8948197455694810692}
-  - component: {fileID: 2941214333261908396}
+  - component: {fileID: 544479297031860466}
+  - component: {fileID: 4204408175811225779}
+  - component: {fileID: 3822253903267433759}
   m_Layer: 0
   m_Name: SpearHitBox
   m_TagString: Untagged
@@ -589,13 +589,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7776768401591002184
+--- !u!4 &544479297031860466
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8074459600428388757}
+  m_GameObject: {fileID: 8398136295478137383}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -604,13 +604,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6674692307654782843}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &8948197455694810692
+--- !u!61 &4204408175811225779
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8074459600428388757}
+  m_GameObject: {fileID: 8398136295478137383}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -650,13 +650,13 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.5, y: 0.5}
   m_EdgeRadius: 0
---- !u!114 &2941214333261908396
+--- !u!114 &3822253903267433759
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8074459600428388757}
+  m_GameObject: {fileID: 8398136295478137383}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ac2c146ff8ce2b2f9aff136a90a6f56, type: 3}
