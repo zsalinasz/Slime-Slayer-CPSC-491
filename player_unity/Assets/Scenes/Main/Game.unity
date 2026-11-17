@@ -365,6 +365,56 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &119572603
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 119572605}
+  - component: {fileID: 119572604}
+  m_Layer: 0
+  m_Name: DialogueController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &119572604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119572603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2895b0c48c00efdb8aa50ce7c79903b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SlimeSLayer.Gameplay::DialogueController
+  dialoguePanel: {fileID: 1308517790}
+  speakerName: {fileID: 1308517789}
+  dialogueText: {fileID: 1308517786}
+  continuePrompt: {fileID: 1308517788}
+  choicesContainer: {fileID: 1308517787}
+  choiceButtons: []
+--- !u!4 &119572605
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119572603}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.76095, y: 0.42123, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &210856688
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5549,6 +5599,88 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!1001 &954221049
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5415589816396469896, guid: 3fd1d7a098a66c94c8e7f4759fb8a3ff, type: 3}
+      propertyPath: m_Name
+      value: QuestGiver
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058430394277012736, guid: 3fd1d7a098a66c94c8e7f4759fb8a3ff, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058430394277012736, guid: 3fd1d7a098a66c94c8e7f4759fb8a3ff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058430394277012736, guid: 3fd1d7a098a66c94c8e7f4759fb8a3ff, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058430394277012736, guid: 3fd1d7a098a66c94c8e7f4759fb8a3ff, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058430394277012736, guid: 3fd1d7a098a66c94c8e7f4759fb8a3ff, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058430394277012736, guid: 3fd1d7a098a66c94c8e7f4759fb8a3ff, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058430394277012736, guid: 3fd1d7a098a66c94c8e7f4759fb8a3ff, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058430394277012736, guid: 3fd1d7a098a66c94c8e7f4759fb8a3ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058430394277012736, guid: 3fd1d7a098a66c94c8e7f4759fb8a3ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058430394277012736, guid: 3fd1d7a098a66c94c8e7f4759fb8a3ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5415589816396469896, guid: 3fd1d7a098a66c94c8e7f4759fb8a3ff, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 954221051}
+  m_SourcePrefab: {fileID: 100100000, guid: 3fd1d7a098a66c94c8e7f4759fb8a3ff, type: 3}
+--- !u!1 &954221050 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5415589816396469896, guid: 3fd1d7a098a66c94c8e7f4759fb8a3ff, type: 3}
+  m_PrefabInstance: {fileID: 954221049}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &954221051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954221050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30b1013801c040740948526e61f0f265, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SlimeSLayer.Gameplay::QuestGiverDialogue
+  dialogueController: {fileID: 119572604}
+  player: {fileID: 1215499617}
+  questManager: {fileID: 1207401833}
+  npcName: Village Elder
+  interactionDistance: 2
 --- !u!1 &956456186
 GameObject:
   m_ObjectHideFlags: 0
@@ -5689,11 +5821,242 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5893c8a71401915ca800221763e06948, type: 3}
+--- !u!1 &1207401832
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1207401834}
+  - component: {fileID: 1207401833}
+  m_Layer: 0
+  m_Name: QuestManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1207401833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207401832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 158d9a10d5f84dd4190e82c944215688, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SlimeSLayer.Gameplay::QuestManager
+  questData: {fileID: 11400000, guid: ac37113f716078948b626fb95d4ae588, type: 2}
+--- !u!4 &1207401834
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207401832}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.76095, y: 0.42123, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1215499617 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6674692307654782843, guid: 5893c8a71401915ca800221763e06948, type: 3}
   m_PrefabInstance: {fileID: 1200328919}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1308517785
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327770527688933506, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7446684106813466811, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+      propertyPath: m_Name
+      value: canvas_dialogue_ui
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+--- !u!114 &1308517786 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3256882824565266807, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+  m_PrefabInstance: {fileID: 1308517785}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!1 &1308517787 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6753487239933489139, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+  m_PrefabInstance: {fileID: 1308517785}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1308517788 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5291154474537248196, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+  m_PrefabInstance: {fileID: 1308517785}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &1308517789 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2094548864330842392, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+  m_PrefabInstance: {fileID: 1308517785}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!1 &1308517790 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1311967829770206738, guid: bd6920c8790e69a11a38dfbd45704380, type: 3}
+  m_PrefabInstance: {fileID: 1308517785}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1359719981
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1359719983}
+  - component: {fileID: 1359719982}
+  m_Layer: 0
+  m_Name: PlayerDataManager (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1359719982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359719981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 811797149a317c3c5af99e2983625ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SlimeSLayer.Gameplay::PlayerDataManager
+  startingPotion: {fileID: 11400000, guid: 0707acb7d847dde48baeea93d9298ee4, type: 2}
+  startingSword: {fileID: 11400000, guid: ad0e90e895b132d4d8140b2849ad6ddb, type: 2}
+--- !u!4 &1359719983
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359719981}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.76095, y: 0.42123, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1469492063
 GameObject:
   m_ObjectHideFlags: 0
@@ -8667,3 +9030,8 @@ SceneRoots:
   - {fileID: 24949510}
   - {fileID: 679253590}
   - {fileID: 1572501045}
+  - {fileID: 954221049}
+  - {fileID: 119572605}
+  - {fileID: 1207401834}
+  - {fileID: 1308517785}
+  - {fileID: 1359719983}
