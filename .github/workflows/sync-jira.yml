@@ -53,6 +53,6 @@ jobs:
             using the current task information from Jira.
 
           add-paths: |
-            JIRA_TASKS.md
+            qa_framework/JIRA_TASKS.md
 
           base: main

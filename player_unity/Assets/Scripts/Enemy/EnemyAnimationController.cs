@@ -1,47 +1,26 @@
 using UnityEngine;
-using System;
 
 public class EnemyAnimationController : MonoBehaviour
 {
     [SerializeField] private Animator animator;
 
+    private void Awake()
+    {
+        if (animator == null)
+            animator = GetComponent<Animator>();
+    }
+
     public void UpdateMovement(Vector3 velocity)
     {
+        if (animator == null)
+            return;
 
-        if (Math.Abs(velocity.x) > Math.Abs(velocity.y))
-        {
-            if (velocity.x > 0)
-            {
-                animator.SetBool("IsMovingRight", true);
-                animator.SetBool("IsMovingLeft", false);
-                animator.SetBool("IsMovingUp", false);
-                animator.SetBool("IsMovingDown", false);
-            }
-            else
-            { 
-                animator.SetBool("IsMovingRight", false);
-                animator.SetBool("IsMovingLeft", true);
-                animator.SetBool("IsMovingUp", false);
-                animator.SetBool("IsMovingDown", false);
-            }
-        }
-        else
-        {
-            if (velocity.y > 0)
-            {
-                animator.SetBool("IsMovingUp", true);
-                animator.SetBool("IsMovingRight", false);
-                animator.SetBool("IsMovingLeft", false);
-                animator.SetBool("IsMovingDown", false);
-            }
-            else
-            {
-                animator.SetBool("IsMovingDown", true);
-                animator.SetBool("IsMovingRight", false);
-                animator.SetBool("IsMovingLeft", false);
-                animator.SetBool("IsMovingUp", false);
-            }
-        }
+        // Reset all directional flags, including when stationary.
+        bool isMoving = velocity.sqrMagnitude > 0.0001f;
+        bool horizontal = Mathf.Abs(velocity.x) > Mathf.Abs(velocity.y);
+        animator.SetBool("IsMovingRight", isMoving && horizontal && velocity.x > 0f);
+        animator.SetBool("IsMovingLeft", isMoving && horizontal && velocity.x < 0f);
+        animator.SetBool("IsMovingUp", isMoving && !horizontal && velocity.y > 0f);
+        animator.SetBool("IsMovingDown", isMoving && !horizontal && velocity.y < 0f);
     }
-    
 }
