@@ -43,7 +43,6 @@
 - [ ] [SCRUM-106](https://cpsc491group2.atlassian.net/browse/SCRUM-106) - Final exploratory and regression testing of owned systems — **Assignee:** Ossama Mostafa
 - [ ] [SCRUM-110](https://cpsc491group2.atlassian.net/browse/SCRUM-110) - TESTING | Test Scene Transitions and Persistent Music — **Assignee:** Alec
 - [ ] [SCRUM-111](https://cpsc491group2.atlassian.net/browse/SCRUM-111) - TESTING | Create Save/Load Integration Test Suite — **Assignee:** Alec
-- [ ] [SCRUM-112](https://cpsc491group2.atlassian.net/browse/SCRUM-112) - TESTING | Audio and VFX Functional/Regression Test Matrix — **Assignee:** Alec
 - [ ] [SCRUM-113](https://cpsc491group2.atlassian.net/browse/SCRUM-113) - TESTING | Run Main-Build Smoke, Regression, and Exploratory QA — **Assignee:** Alec
 - [ ] [SCRUM-114](https://cpsc491group2.atlassian.net/browse/SCRUM-114) - TESTING | Establish FPS, Load-Time, and Memory Baseline — **Assignee:** Alec
 - [ ] [SCRUM-115](https://cpsc491group2.atlassian.net/browse/SCRUM-115) - TESTING | Run Gameplay Stress Tests — **Assignee:** Alec
@@ -77,6 +76,7 @@
 - [ ] [SCRUM-83](https://cpsc491group2.atlassian.net/browse/SCRUM-83) - TESTING | Perform manual Combat Tests to ensure combat feels smooth and responsive — **Assignee:** Moises Munoz
 - [ ] [SCRUM-108](https://cpsc491group2.atlassian.net/browse/SCRUM-108) - TESTING | Automate Unity Integration Smoke Tests — **Assignee:** Alec
 - [ ] [SCRUM-109](https://cpsc491group2.atlassian.net/browse/SCRUM-109) - TESTING | Run Unity Tests and Preserve Results in CI — **Assignee:** Alec
+- [ ] [SCRUM-112](https://cpsc491group2.atlassian.net/browse/SCRUM-112) - TESTING | Audio and VFX Functional/Regression Test Matrix — **Assignee:** Alec
 - [ ] [SCRUM-154](https://cpsc491group2.atlassian.net/browse/SCRUM-154) - Update bow shooting animation — **Assignee:** Moises Munoz
 
 ## In Review
